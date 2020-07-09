@@ -34,3 +34,11 @@ The option to show recipes
 
 When the recipes are shown
 then the user is given the option to view a video
+
+## Rough Breakdown of Tasks
+setup form to take data from the user
+AJAX request for Long. Lat. of user
+AJAX for restaurants
+Come up with sorting based on user preferences
+AJAX for Youtube based on menu
+AJAX for Recipes
