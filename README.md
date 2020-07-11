@@ -72,3 +72,9 @@ Come up with sorting based on user preferences
 AJAX for Youtube based on menu
 
 AJAX for Recipes
+
+## Links
+
+ https://andrewdalba.github.io/what-is-for-dinner/ 
+
+ https://github.com/andrewdalba/what-is-for-dinner
