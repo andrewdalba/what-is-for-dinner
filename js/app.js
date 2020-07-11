@@ -36,6 +36,6 @@ $('#restaurantForm').submit(function (event) {
    alertCall("Please enter something! I have no idea what you like to eat"); 
    return;
  }
-
+  alert("haha");
   alertCall("pass!");
 });
