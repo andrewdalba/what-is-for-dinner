@@ -1,7 +1,7 @@
 $(document).foundation()
 var x = $("#location_input");
 var lat, lon, milesRadius, cusineChoice;
-var apiKey="AIzaSyCQ-IlwmHq6shCx1zKv3t3-ZWuZzJz7DGQ";
+var apiKey="";
 
 function getLocation() {
   $.ajax({
