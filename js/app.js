@@ -1,7 +1,7 @@
 $(document).foundation()
 var x = $("#location_input");
 var lat, lon, milesRadius, cusineChoice;
-var apiKey="";
+var apiKey="AIzaSyCQ-IlwmHq6shCx1zKv3t3-ZWuZzJz7DGQ";
 
 function getLocation() {
   $.ajax({
@@ -21,17 +21,24 @@ function alertCall(t){
 }
 
 function restaurantSearch(){
-  $.ajax({
-    url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius*1600}&type=restaurant&keyword=${cusineChoice}=${apiKey}`,
-    method: "GET",
-    responseType:'application/json',
-  }).then(function (response) {
-    console.log(response)
-  }).catch(function (error) {
+  $.ajax({ 
+    //     https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=YOUR_API_KEY
+    url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius*1600}&type=restaurant&keyword=${cusineChoice}&key=${apiKey}`,
+    method : "GET",
+        contentType: "application/json",
+      }).then(function(response){
+        console.log(response)
+    });
+    
+    // method: "GET",
+    // headers: {"Access-Control-Allow-Origin": "*"}
+  // }).then(function (response) {
+    // console.log(response)
+  // }).catch(function (error) {
     // if error use default
 
-    alertCall("ERRRoRRR! #"+error.status)
-  });
+    // alertCall("ERRRoRRR! #"+error.status)
+  // });
    
 }
 
