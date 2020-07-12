@@ -14,7 +14,6 @@
     <script src="js/vendor/what-input.js"></script>
     <script src="js/vendor/foundation.js"></script>
     <script src="js/vendor/foundation.min.js"></script>
-    <script src="js/app.js"></script>
 </head>
 
 <body>
@@ -28,63 +27,106 @@
                 <h5 style="text-align: center;">I bet you are VERY hungry now!</h5>
             </div>
         </div>
-        <form id="restaurantForm">
-            <div class="grid-x grid-padding-x">
-                <div class="large-12 cell">
-                    <label>Please let me know your favorite cusines (separate them with comma)</label>
-                    <input type="text" id="cusineChoice" placeholder="Enter cuisine of your chose." />
+
+        <ul class="accordion" data-accordion data-multi-expand="true">
+            <li class="accordion-item is-active" data-accordion-item>
+                <a href="#" class="accordion-title">Request form</a>
+                <div class="accordion-content" data-tab-content>
+                    <form id="restaurantForm">
+                        <div class="grid-x grid-padding-x">
+                            <div class="large-12 cell">
+                                <label>Please let me know your favorite cusines (separate them with comma)</label>
+                                <input type="text" id="cusineChoice" placeholder="Enter cuisine of your chose." />
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x">
+                            <div class="large-8 medium-8 cell">
+                                <label>Push the button to find out your current location</label>
+                                <div class="input-group">
+                                    <a href="#" class="button" onclick="getLocation()">Location</a>
+                                    <input type="text" placeholder="or just type it in" class="input-group-field"
+                                        id="location_input" />
+                                </div>
+                            </div>
+                            <div class="large-4 medium-4 cell">
+                                <label>How far you looking?</label>
+                                <input type="number" min="1" max="50" id="milesRadius" value="5" required pattern="number"
+                                    placeholder="in miles" />
+                            </div>
+                        </div>
+
+                        <div class="grid-x grid-padding-x">
+                            <div class="large-8 medium-8 cell">
+                                <label>Any preference with dishes or cocktails?</label>
+                                <input type="text" placeholder="Please separate by comma" id="dishesChoice" />
+                            </div>
+                            <div class="large-4 medium-4 cell">
+                                <label>Let me see what I can find for you</label>
+                                <button class="button" type="Submit">Submit </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div>
-            <div class="grid-x grid-padding-x">
-                <div class="large-8 medium-8 cell">
-                    <label>Push the button to find out your current location</label>
-                    <div class="input-group">
-                        <a href="#" class="button" onclick="getLocation()">Location</a>
-                        <input type="text" placeholder="or just type it in" class="input-group-field"
-                            id="location_input" />
+            </li>
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Restaurant search results</a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="callout">
+                        <h5>So many possibilities!</h5>
+                        <p>Here got to be list of restaurants</p>
                     </div>
                 </div>
-                <div class="large-4 medium-4 cell">
-                    <label>How far you looking?</label>
-                    <input type="number" min="1" max="50" id="milesRadius" value="5" placeholder="in miles" />
+            </li>
+            <li class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">Receipies search results</a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="callout">
+                        <h5>Make it on your own at home!</h5>
+                        <p>Here got to be list of receipies</p>
+                    </div>
                 </div>
-            </div>
+            </li>
+        </ul>
 
-            <div class="grid-x grid-padding-x">
-                <div class="large-8 medium-8 cell">
-                    <label>Any preference with dishes or cocktails?</label>
-                    <input type="text" placeholder="Please separate by comma" id="dishesChoice" />
-                </div>
-                <div class="large-4 medium-4 cell">
-                    <label>Let me see what I can find for you</label>
-                    <button class="button" type="Submit">Submit </button>
-                </div>
-            </div>
-        </form>
 
-        <div class="callout">
-            <h5>So many possibilities!</h5>
-            <p>Here got to be list of restaurants</p>
-        </div>
 
     </div>
     <!-- Modals -->
-    <div class="reveal" id="alertModal" data-reveal data-animation-in="fade-in" data-animation-out="fade-out" >
-        <h1 style="text-align: center; color: aliceblue;" id="alertText"></h1>
+    <div class="reveal" id="alertModal" data-reveal data-animation-in="fade-in" data-animation-out="fade-out">
+        <h1 style="text-align: center; " id="alertText"></h1>
         <div class="grid-x grid-padding-x">
             <div class="large-7 medium-7 cell">
-                
-                <p class="lead">Hmmm. I do not get it.</p>  
+
+                <p class="lead">Hmmm. I do not get it.</p>
+
             </div>
             <div class="large-5 medium-5 cell">
                 <img src="assets/Zid2.gif" alt="Don't forget" width="300" height="300">
             </div>
         </div>
-        
-        
         <button class="close-button" data-close aria-label="Close reveal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
+    </div>
+    <div class="reveal" id="inputModal" data-reveal data-animation-in="fade-in" data-animation-out="fade-out"
+        close_on_background_click="false">
+        <h1 style="text-align: center; color: aliceblue;" id="alertText1"></h1>
+        <div class="grid-x grid-padding-x">
+            <div class="large-7 medium-7 cell">
+                <form id="modalForm">
+                    <label id="modalLabel"></label>
+                    <input type="text" id="modal_input"/>
+                    <!-- <label class="form-error" data-form-error-for="modal_input">API key is required.</label> -->
+                    <button class="button" type="Submit">Submit</button>
+                </form>
+            </div>
+            <div class="large-5 medium-5 cell">
+                <img src="assets/typing.gif" alt="Enter here" width="300" height="300">
+            </div>
+        </div>
+        <!-- <button class="close-button" data-close aria-label="Close reveal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button> -->
     </div>
     <!-- End of Modals -->
 

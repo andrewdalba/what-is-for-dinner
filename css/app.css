@@ -2,9 +2,18 @@
 {
     margin-left: 0.5rem;
 }
-div.reveal
+#inputModal
 {
- border-radius: 2rem;
- border: 1, solid, salmon;
+   border-radius: 2rem;
+   border: 1, solid, lightskyblue;
+   background-color: lightskyblue;
+   color: darkgray;
+ }
+ 
+#alertModal
+{
+  border-radius: 2rem;
+  border: 1, solid, salmon;
   background-color: salmon;
+  color: aliceblue;
 }
