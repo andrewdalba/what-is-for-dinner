@@ -93,6 +93,12 @@ function restaurantSearch() {
   // });
 
 }
+
+
+
+
+
+
 var restaurants = {
   "html_attributions": [],
   "next_page_token": "CrQCKAEAAHQmsqYU_GLkNe7PaoNVZ0S5mbKLxfA8zjut8BYM_RK-AZxoqWINBwNiHM9vHO3AZGziZwGoMH__hZmith90P5RtLAiP2ssTpjuA8rzAcNWjurwIms0luKQX497Nah70mNpI1OLo8I_bokEJ--qA54FAbCIAEg_S-FejAYGBfWEtvsnN4kLGLoCnK0tgUCsDblwXAI_sK72UkHtfvMhZXJV-Z00dB9rPz7CgVXRRrGUWBHpYRILu18YyAPd3ttkgK_Fz2d_pSLL7FyRPFF7y91Mvcv_lJvPf3hkb1sqrDWyuPA2y8ZolWksMXWj8r1BXRyt7ZT3hfYG_RbLy8RiC-gwuNfoEftSZ6QGEw-JB9MgyqMoGWr2V_rqqLXBrvAb1UTFxkDdIQY3bGzCaHDcOq9ASEADrLiPmrfQ415N6Pak8Z50aFKxzSvrE2FWs9-IjUH0o4vId3voP",
@@ -1137,6 +1143,50 @@ var restaurants = {
   ],
   "status": "OK"
 }
+
+for(var i = 0; i < restaurants.results.length; i++){
+  console.log(restaurants.results[i]);
+  var restaurantlocation = restaurants.results[i].vicinity;
+  var restaurantRating = restaurants.results[i].rating;
+  var restaurantName = restaurants.results[i].name;
+
+  // restaurantIcon needs to be changed
+  if(restaurants.results['photos']){
+  var restaurantIcon = restaurants.results[i].photos.photo_reference;
+  var cardImage = $(`<img src='${restaurantIcon}' alt='restaurant Icon'>`);
+  }
+  else{
+    var cardImage = $(`<img src='' alt='restaurant Icon'>`);
+  }
+
+  if(restaurants.results[i]['opening_hours']){
+    if(restaurants.results[i].opening_hours['open_now']){
+      var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
+    }
+  }
+  else{
+    var openConfirm = $(`<p style='color: red;'>Closed</p>`);
+  }
+
+  var restaurantCell = $("<div class='cell'>")
+  var restaurantCard = $("<div class='card'>");
+  var cardHeader = $(`<div class='card-divider'>${restaurantName}</div>`);
+  var cardTextSection = $(`<div class='card-section'>`);
+  var cardSectionHeader = $(`<h4>Restaurant Info:</h4>`);
+  var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
+  var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
+
+  
+  $(restaurantCard).append(cardHeader);
+  $(restaurantCard).append(cardImage);
+  $(restaurantCard).append(cardTextSection);
+  $(cardTextSection).append(cardSectionRating);
+  $(cardTextSection).append(cardSectionlocation);
+  $(cardTextSection).append(openConfirm);
+  $(restaurantCell).append(restaurantCard);
+  $("#restaurantList").append(restaurantCell);
+}
+
 $('#restaurantForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
