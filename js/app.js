@@ -1279,14 +1279,17 @@ for(var i = 0; i < restaurants.results.length; i++){
     if(restaurants.results[i].opening_hours['open_now']){
       var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
     }
+    if(restaurants.results[i].opening_hours['open_now'] === false){
+      var openConfirm = $(`<p style='color: red;'>Closed</p>`);
+    }
   }
   else{
-    var openConfirm = $(`<p style='color: red;'>Closed</p>`);
+    var openConfirm = $(`<p style='color: yellow;'>No Info</p>`);
   }
 
   var restaurantCell = $("<div class='cell'>")
   var restaurantCard = $("<div class='card'>");
-  var cardHeader = $(`<div class='card-divider'>${restaurantName}</div>`);
+  var cardHeader = $(`<div class='card-divider' value='${restaurants.results[i].id}'>${restaurantName}</div>`);
   var cardTextSection = $(`<div class='card-section'>`);
   var cardSectionHeader = $(`<h4>Restaurant Info:</h4>`);
   var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
