@@ -1257,7 +1257,7 @@ var restaurants = {
 
 }
 
-}
+
 
 // Creates cards for search results
 for(var i = 0; i < restaurants.results.length; i++){
