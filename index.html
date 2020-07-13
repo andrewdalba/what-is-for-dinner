@@ -8,6 +8,8 @@
     <title>Foundation for Sites</title>
     <link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+
     <script src="js/app.js" defer></script>;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="js/vendor/jquery.js"></script>
@@ -21,10 +23,10 @@
     <div class="grid-container">
         <div class="grid-x grid-padding-x">
             <div class="large-12 cell">
-                <h1 style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; text-align: center;">
-                    What is for dinner,
-                    Darling?</h1>
-                <h5 style="text-align: center;">I bet you are VERY hungry now!</h5>
+                <div class="title">
+                    <h1 class="headersstyle"> What is for dinner, Darling?</h1>
+                    <h5 style="text-align: center;">I bet you are VERY hungry now!</h5>
+                </div>
             </div>
         </div>
 
@@ -50,8 +52,8 @@
                             </div>
                             <div class="large-4 medium-4 cell">
                                 <label>How far you looking?</label>
-                                <input type="number" min="1" max="50" id="milesRadius" value="5" required pattern="number"
-                                    placeholder="in miles" />
+                                <input type="number" min="1" max="50" id="milesRadius" value="5" required
+                                    pattern="number" placeholder="in miles" />
                             </div>
                         </div>
 
@@ -72,6 +74,21 @@
                 <a href="#" class="accordion-title">Restaurant search results</a>
                 <div class="accordion-content" data-tab-content>
                     <div class="callout">
+
+                        <h3 class="headersstyle"
+                            style="background: linear-gradient( #9198e5,#e66465);  color: white; margin:0 ">List of
+                            restaurants based on </h3>
+
+                        <div class="grid-x grid-padding-x">
+                            <div class="large-6 medium-6 cell"
+                                style="background: linear-gradient(#e66465, #9198e5); color: white; margin:0">
+                                <h3 class="headersstyle">cusine choice</h3>
+                            </div>
+                            <div class="large-6 medium-6 cell"
+                                style="background: linear-gradient(#e66465, #9198e5); color:white; margin:0">
+                                <h3 class="headersstyle"> dishes/drinks choice</h3>
+                            </div>
+                        </div>
                         <h5>So many possibilities!</h5>
                         <p>Here got to be list of restaurants</p>
                         <div class="grid-container">
@@ -81,15 +98,122 @@
                                 
                             </div>
                         </div>
+
                     </div>
                 </div>
             </li>
             <li class="accordion-item" data-accordion-item>
                 <a href="#" class="accordion-title">Receipies search results</a>
                 <div class="accordion-content" data-tab-content>
+                    <div class="callout" style="background: linear-gradient( #9198e5,#6fe664); margin:0 ">
+                        <h6 class="headersstyle">
+                            <p class="anim">Great!
+                                <span class="a">
+                                    let's cook at home!
+                                </span>
+                                &mdash; It is better and safer this way &mdash;
+                            </p>
+                        </h6>
+                        <form id="receipiesForm">
+
+                            <div class="grid-x grid-padding-x">
+                                <div class="large-12 cell">
+                                    <label>Any preference with dishes or cocktails?</label>
+                                    <input type="text" placeholder="Please enter food or drink you want to find" id="dishesChoice2" />
+                                </div>
+                            </div>
+                            <div class="grid-x grid-padding-x">
+                                <div class="large-4 medium-4 cell">
+                                    <label>Type</label>
+                                    <select id="selType">
+                                        <option value="">don know</option>
+                                        <option value="main course">main course</option>
+                                        <option value="side dish">side dish</option>
+                                        <option value="dessert">dessert</option>
+                                        <option value="appetizer">appetizer</option>                                      
+                                        <option value="salad">salad</option>
+                                        <option value="bread">bread</option>
+                                        <option value="breakfast">breakfast</option>
+                                        <option value="soup">soup</option>
+                                        <option value="beverage">beverage</option>
+                                        <option value="sauce">sauce</option>
+                                        <option value="marinade">marinade</option>
+                                        <option value="fingerfood">fingerfood</option>
+                                        <option value="snack">snack</option>
+                                        <option value="drink">drink</option>
+                                    </select>
+                                    </label>
+                                </div>
+                                <div class="large-4 medium-4 cell">
+                                    <label>Skip records (0..900)</label>
+                                    <input type="number" min="0" max="900" id="skipN" value="0" />
+                                </div>
+                                <div class="large-4 medium-4 cell">
+                                    <label>Return records amount (1..100) </label>
+                                    <input type="number" min="1" max="100" value="10" id="returnN"
+                                        placeholder="for example: coconut" />
+                                </div>
+                            </div>
+                            <div class="grid-x grid-padding-x">
+                                <div class="large-4 medium-4 cell">
+                                    <label>Diet</label>
+                                    <input type="text" id="dietChoice" placeholder="for example: vegetarian" />
+                                </div>
+                                <div class="large-4 medium-4 cell">
+                                    <label>Intolerance</label>
+                                    <input type="text" id="outChoice" placeholder="for example: eggs, glutten" />
+                                </div>
+                                <div class="large-4 medium-4 cell">
+                                    <label>Exclude Ingredients</label>
+                                    <input type="text" id="excludeChoice" placeholder="for example: coconut" />
+                                </div>
+                            </div>
+
+                            <div class="grid-x grid-padding-x">
+                                <div class="large-8 medium-8 cell">
+                                    <label>Please let me know your favorite cusines (separate them with comma)</label>
+                                    <input type="text" id="cusineChoice2" placeholder="Enter cuisine of your chose." />
+                                </div>
+                                <div class="large-4 medium-4 cell">
+                                    <label>Let me see what I can find for you</label>
+                                    <button class="button" type="Submit">Submit </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="grid-x grid-padding-x">
+                            <div class="large-6 medium-6 cell"
+                                style="background: linear-gradient(#6fe664, #9198e5); color: white; margin:0">
+                                <h3 class="headersstyle">List of receipies </h3>
+                            </div>
+                            <div class="large-6 medium-6 cell"
+                                style="background: linear-gradient(#6fe664, #9198e5); color:white; margin:0">
+                                <h3 class="headersstyle"> how-to videos list</h3>
+                            </div>
+                        </div>
+                    </div>
                     <div class="callout">
-                        <h5>Make it on your own at home!</h5>
-                        <p>Here got to be list of receipies</p>
+                        <div class="grid-x grid-padding-x">
+                            <div class="large-6 medium-6 cell">
+                                <figure id="ReceipiesTab">
+                                    <h5>Make it on your own at home!</h5>
+                                    
+
+
+                                </figure>
+                            </div>
+                            <div class="large-6 medium-6 cell">
+                                <figure id="VideosTab">
+
+                                    
+                                    <p>Here got to be list of receipies</p>
+
+                                </figure>
+                            </div>
+                        </div>
+
+                        <!-- <div id="rateYo"></div> -->
+
+
                     </div>
                 </div>
             </li>
@@ -100,7 +224,7 @@
     </div>
     <!-- Modals -->
     <div class="reveal" id="alertModal" data-reveal data-animation-in="fade-in" data-animation-out="fade-out">
-        <h1 style="text-align: center; " id="alertText"></h1>
+        <h2 style="text-align: center; " id="alertText"></h2>
         <div class="grid-x grid-padding-x">
             <div class="large-7 medium-7 cell">
 
@@ -117,12 +241,12 @@
     </div>
     <div class="reveal" id="inputModal" data-reveal data-animation-in="fade-in" data-animation-out="fade-out"
         close_on_background_click="false">
-        <h1 style="text-align: center; color: aliceblue;" id="alertText1"></h1>
+        <h2 style="text-align: center; color: aliceblue;" id="alertText1"></h2>
         <div class="grid-x grid-padding-x">
             <div class="large-7 medium-7 cell">
                 <form id="modalForm">
                     <label id="modalLabel"></label>
-                    <input type="text" id="modal_input"/>
+                    <input type="text" id="modal_input" />
                     <!-- <label class="form-error" data-form-error-for="modal_input">API key is required.</label> -->
                     <button class="button" type="Submit">Submit</button>
                 </form>
@@ -136,8 +260,7 @@
         </button> -->
     </div>
     <!-- End of Modals -->
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 </body>
 
 </html>
