@@ -96,6 +96,7 @@ function restaurantSearch() {
   // });
 
 }
+
 $('#restaurantForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
@@ -203,6 +204,8 @@ $('#receipiesForm').submit(function (event) {
 });
 
 inputdata("Please input your API key");
+
+
 
 
 
@@ -1251,4 +1254,77 @@ var restaurants = {
     }
   ],
   "status": "OK"
+
 }
+
+}
+
+// Creates cards for search results
+for(var i = 0; i < restaurants.results.length; i++){
+  console.log(restaurants.results[i]);
+  var restaurantlocation = restaurants.results[i].vicinity;
+  var restaurantRating = restaurants.results[i].rating;
+  var restaurantName = restaurants.results[i].name;
+
+  // restaurantIcon needs to be changed
+  if(restaurants.results['photos']){
+  var restaurantIcon = restaurants.results[i].photos.photo_reference;
+  var cardImage = $(`<img src='${restaurantIcon}' alt='restaurant Icon'>`);
+  }
+  else{
+    var cardImage = $(`<img src='' alt='restaurant Icon'>`);
+  }
+
+  if(restaurants.results[i]['opening_hours']){
+    if(restaurants.results[i].opening_hours['open_now']){
+      var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
+    }
+  }
+  else{
+    var openConfirm = $(`<p style='color: red;'>Closed</p>`);
+  }
+
+  var restaurantCell = $("<div class='cell'>")
+  var restaurantCard = $("<div class='card'>");
+  var cardHeader = $(`<div class='card-divider'>${restaurantName}</div>`);
+  var cardTextSection = $(`<div class='card-section'>`);
+  var cardSectionHeader = $(`<h4>Restaurant Info:</h4>`);
+  var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
+  var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
+
+  
+  $(restaurantCard).append(cardHeader);
+  $(restaurantCard).append(cardImage);
+  $(restaurantCard).append(cardTextSection);
+  $(cardTextSection).append(cardSectionRating);
+  $(cardTextSection).append(cardSectionlocation);
+  $(cardTextSection).append(openConfirm);
+  $(restaurantCell).append(restaurantCard);
+  $("#restaurantList").append(restaurantCell);
+}
+
+$('#restaurantForm').submit(function (event) {
+  event.preventDefault();
+  // validate input before proceed
+  var textLocation = $("#location_input").val();
+  cusineChoice = $("#cusineChoice").val();
+  milesRadius = $("#milesRadius").val();
+  var dishesChoice = $("#dishesChoice").val();
+  if (!lat) {
+    getLocation();
+  }
+  if (!milesRadius) {
+    alertCall("Please enter radious of search");
+    return;
+  };
+  if ((!dishesChoice) && (!cusineChoice)) {
+    alertCall("Please enter something! I have no idea what you like to eat");
+    return;
+  }
+  // restaurantSearch();
+  alertCall("pass!");
+  console.log(restaurants);
+});
+
+inputdata("Please input your API key");
+
