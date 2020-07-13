@@ -3,6 +3,7 @@ $(document).foundation()
 var x = $("#location_input");
 var lat, lon, milesRadius, cusineChoice;
 var apiKey = "";
+const recepiesAPIKey = "dff8f3f117msh752eb83c0d81eb8p10add3jsn52664fe1c35d";
 
 function getLocation() {
   $.ajax({
@@ -27,9 +28,10 @@ $('#modalForm').submit(function (event) {
   var textinput = $("#modal_input").val();
   if (textinput != "") {
     $('#inputModal').foundation('close');
-    apiKey=textinput;
+    apiKey = textinput;
   }
 });
+
 
 
 // class FancyPrompt {
@@ -60,7 +62,6 @@ $('#modalForm').submit(function (event) {
 // }
 
 
-
 function inputdata(textAlert) {
   $("#alertText1").text(textAlert);
   $('#inputModal').foundation('open');
@@ -74,6 +75,8 @@ function restaurantSearch() {
       console.log(data)
     }
   });
+
+
 
   // contentType: "application/json",
   // }).then(function (response) {
@@ -93,6 +96,118 @@ function restaurantSearch() {
   // });
 
 }
+$('#restaurantForm').submit(function (event) {
+  event.preventDefault();
+  // validate input before proceed
+  var textLocation = $("#location_input").val();
+  cusineChoice = $("#cusineChoice").val();
+  milesRadius = $("#milesRadius").val();
+  var dishesChoice = $("#dishesChoice").val();
+  if (!lat) {
+    getLocation();
+  }
+  if (!milesRadius) {
+    alertCall("Please enter radious of search");
+    return;
+  };
+  if ((!dishesChoice) && (!cusineChoice)) {
+    alertCall("Please enter something! I have no idea what you like to eat");
+    return;
+  }
+  // restaurantSearch();
+  alertCall("pass!");
+  console.log(restaurants);
+});
+
+function recepiesSearch(url) {
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": url,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-host": "webknox-recipes.p.rapidapi.com",
+      "x-rapidapi-key": recepiesAPIKey
+    }
+  }
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    // var el = "";
+    // for (var i = 1; i < 6; i++) {
+    //   el += ` <div class="grid-x grid-padding-x">
+    //       <div class="large-6 medium-6 cell"> 
+    //         <h6>Name:${response.results[i].title}</h6>
+    //       </div>
+    //       <div class="large-6 medium-6 cell"> 
+    //        <img class="cloudIcon" style="float:right" src="${response.results[i].imageUrls[0]}" alt="image of ${response.results[i].title}">
+    //     </div>
+    //     `
+    // }
+    // $("#ReceipiesTab").empty();
+    // $("#ReceipiesTab").innerHTML(el);
+    
+
+
+    // $currentEl = document.createElement('div');
+    // $currentEl.innerHTML = el;
+    // $("#ReceipiesTab").append($currentEl)
+
+
+  }).catch(function () {
+    alertCall("Errrorrs!");
+  });
+
+
+
+  $("#ReceipiesTab").html("");
+
+
+
+
+
+
+
+}
+
+$('#receipiesForm').submit(function (event) {
+  event.preventDefault();
+  // validate input before proceed
+  var foodName = $("#dishesChoice2").val();
+  if (foodName === "") {
+    alertCall("Please enter something! I have no idea what you like to eat");
+    return;
+  }
+  var receipiesURL = "https://api.spoonacular.com/recipes/complexSearch?";
+  if ($("#selType").val() != "") {
+    receipiesURL += "type=" + $("#selType").val();
+  }
+  if ($("#skipN").val() != 0) {
+    receipiesURL += "&offset=" + $("#skipN").val();
+  }
+  receipiesURL += "&number=" + $("#returnN").val();
+  if ($("#cusineChoice2").val() != "") {
+    receipiesURL += "&cuisine=" + $("#cusineChoice2").val();
+  }
+  if ($("#dietChoice").val() != "") {
+    receipiesURL += "&diet=" + $("#dietChoice").val();
+  }
+  if ($("#outChoice").val() != "") {
+    receipiesURL += "&intolerances=" + $("#outChoice").val();
+  }
+  if ($("#excludeChoice").val() != "") {
+    receipiesURL += "&excludeIngredients=" + $("#excludeChoice").val();
+  }
+  receipiesURL += "&query=" + foodName;
+
+  recepiesSearch(receipiesURL);
+});
+
+inputdata("Please input your API key");
+
+
+
+
+
 var restaurants = {
   "html_attributions": [],
   "next_page_token": "CrQCKAEAAHQmsqYU_GLkNe7PaoNVZ0S5mbKLxfA8zjut8BYM_RK-AZxoqWINBwNiHM9vHO3AZGziZwGoMH__hZmith90P5RtLAiP2ssTpjuA8rzAcNWjurwIms0luKQX497Nah70mNpI1OLo8I_bokEJ--qA54FAbCIAEg_S-FejAYGBfWEtvsnN4kLGLoCnK0tgUCsDblwXAI_sK72UkHtfvMhZXJV-Z00dB9rPz7CgVXRRrGUWBHpYRILu18YyAPd3ttkgK_Fz2d_pSLL7FyRPFF7y91Mvcv_lJvPf3hkb1sqrDWyuPA2y8ZolWksMXWj8r1BXRyt7ZT3hfYG_RbLy8RiC-gwuNfoEftSZ6QGEw-JB9MgyqMoGWr2V_rqqLXBrvAb1UTFxkDdIQY3bGzCaHDcOq9ASEADrLiPmrfQ415N6Pak8Z50aFKxzSvrE2FWs9-IjUH0o4vId3voP",
@@ -1137,27 +1252,3 @@ var restaurants = {
   ],
   "status": "OK"
 }
-$('#restaurantForm').submit(function (event) {
-  event.preventDefault();
-  // validate input before proceed
-  var textLocation = $("#location_input").val();
-  cusineChoice = $("#cusineChoice").val();
-  milesRadius = $("#milesRadius").val();
-  var dishesChoice = $("#dishesChoice").val();
-  if (!lat) {
-    getLocation();
-  }
-  if (!milesRadius) {
-    alertCall("Please enter radious of search");
-    return;
-  };
-  if ((!dishesChoice) && (!cusineChoice)) {
-    alertCall("Please enter something! I have no idea what you like to eat");
-    return;
-  }
-  // restaurantSearch();
-  alertCall("pass!");
-  console.log(restaurants);
-});
-
-inputdata("Please input your API key");
