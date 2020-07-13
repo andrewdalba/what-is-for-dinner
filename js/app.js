@@ -1144,6 +1144,7 @@ var restaurants = {
   "status": "OK"
 }
 
+// Creates cards for search results
 for(var i = 0; i < restaurants.results.length; i++){
   console.log(restaurants.results[i]);
   var restaurantlocation = restaurants.results[i].vicinity;
