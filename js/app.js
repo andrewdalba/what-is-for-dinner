@@ -5,7 +5,7 @@ var lat, lon, milesRadius, cusineChoice;
 var apiKey = "";
 var apiKeyReceipy = "";
 var data = {};
-var actions={};
+var actions = {};
 var dataReceipy = {};
 // const recepiesAPIKey = "dff8f3f117msh752eb83c0d81eb8p10add3jsn52664fe1c35d";
 
@@ -175,33 +175,6 @@ $('#restaurantForm').submit(function (event) {
   alertCall("pass!");
   // console.log(restaurants);
 });
-
-
-
-
-data = { "results": [{ "id": 492272, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/492272-312x231.jpg", "imageType": "jpg" }, { "id": 508108, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/508108-312x231.jpg", "imageType": "jpg" }, { "id": 419602, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/419602-312x231.jpg", "imageType": "jpg" }, { "id": 303837, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/303837-312x231.jpeg", "imageType": "jpeg" }, { "id": 938899, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/938899-312x231.jpg", "imageType": "jpg" }, { "id": 491489, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/491489-312x231.jpg", "imageType": "jpg" }, { "id": 1028851, "title": "Pasta Pomodoro", "image": "https://spoonacular.com/recipeImages/1028851-312x231.jpg", "imageType": "jpg" }, { "id": 26837, "title": "Pasta Pomodoro", "image": "https://spoonacular.com/recipeImages/26837-312x231.jpg", "imageType": "jpg" }, { "id": 512386, "title": "Pasta Al Forno", "image": "https://spoonacular.com/recipeImages/512386-312x231.jpg", "imageType": "jpg" }, { "id": 376546, "title": "Pasta Primavera", "image": "https://spoonacular.com/recipeImages/376546-312x231.jpeg", "imageType": "jpeg" }], "offset": 0, "number": 10, "totalResults": 1749 }
-
-function drawReceipies() {
-  var el = `<div class="grid-x grid-padding-x">`;
-  for (var i = 0; i < data.results.length; i++) {
-    el +=
-      ` 
-   <div  class="large-6 medium-6 cell" >
-   <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${data.results[i].image}" alt="${data.results[i].title}'s image">
-   </div>
-   <div  class="large-6 medium-6 cell"  >
-   <h4 id="dish_${i}" onClick="dishClick(${i})" style="align-text: center; margin-top: 2rem " value="${data.results[i].id}">${i + 1}. ${data.results[i].title}</h4> 
-  </div>
-   `
-  }
-  $currentEl = document.createElement('div');
-  $currentEl.innerHTML = el + "</div>";
-  $("#ReceipiesTab").empty();
-  $("#ReceipiesTab").append($currentEl);
-}
-
-
-
 function dishClick(n) {
   var dishId = $("#dish_" + n).attr("value");
   $("#ReceipyTitle").text(data.results[n].title)
@@ -214,7 +187,7 @@ function dishClick(n) {
     dataType: 'json',
     data: JSON.stringify(data),
     success: function (data) {
-      dataReceipy=data;
+      dataReceipy = data;
       var listIng = "";
       for (var i = 0; i < dataReceipy.ingredients.length; i++) {
         listIng += dataReceipy.ingredients[i].name + " " + dataReceipy.ingredients[i].amount.us.value + dataReceipy.ingredients[i].amount.us.unit + "<br>";
@@ -230,19 +203,17 @@ function dishClick(n) {
     url: ingredientURL,
     method: "GET",
     contentType: "application/json",
-    success: function(data1) {
-      actions=data1;
+    success: function (data1) {
+      actions = data1;
       var listActions = "";
       for (var i = 0; i < actions[0].steps.length; i++) {
-        listActions +=(i+1)+". "+actions[0].steps[i].step + "<br>";
+        listActions += (i + 1) + ". " + actions[0].steps[i].step + "<br>";
       }
       $("#orderList").html(listActions);
     }
-   }).catch(function (error) {
+  }).catch(function (error) {
     alertCall("Errors!!! in Receipy Analyzed Instructions " + error.status);
   })
-
-
   $('#ReceipyModal').foundation('open');
 };
 function DrawIngredients() {
@@ -252,66 +223,58 @@ function DrawIngredients() {
   }
   return listIng;
 }
-
 function recepiesSearch(url) {
-
   $.ajax({
     url: url,
     method: "GET",
-  }).then(function (data) {
-    console.log(data)
+  }).then(function (data1) {
+    data=data1;
+    var el = `<div class="grid-x grid-padding-x">`;
     for (var i = 0; i < data.results.length; i++) {
-
-
-      
+      el +=
+        ` 
+       <div  class="large-6 medium-6 cell" >
+        <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${data.results[i].image}" alt="${data.results[i].title}'s image">
+       </div>
+       <div  class="large-6 medium-6 cell"  >
+         <h4 id="dish_${i}" onClick="dishClick(${i})" style="align-text: center; margin-top: 2rem " value="${data.results[i].id}">${i + 1}. ${data.results[i].title}</h4> 
+       </div>
+       `
     }
-
-
+    $currentEl = document.createElement('div');
+    $currentEl.innerHTML = el + "</div>";
+    $("#ReceipiesTab").empty();
+    $("#ReceipiesTab").append($currentEl);
   }).catch(function (error) {
-    alertCall("Errors!!!  " + error.status);
+    alertCall("Errors!!! receipies Search " + error.status);
   });
-  // var el = "";
-  // for (var i = 1; i < 6; i++) {
-  //   el += ` <div class="grid-x grid-padding-x">
-  //       <div class="large-6 medium-6 cell"> 
-  //         <h6>Name:${response.results[i].title}</h6>
-  //       </div>
-  //       <div class="large-6 medium-6 cell"> 
-  //        <img class="cloudIcon" style="float:right" src="${response.results[i].imageUrls[0]}" alt="image of ${response.results[i].title}">
-  //     </div>
-  //     `
-  // }
-  // $("#ReceipiesTab").empty();
-  // $("#ReceipiesTab").innerHTML(el);
-
-
-
-  // $currentEl = document.createElement('div');
-  // $currentEl.innerHTML = el;
-  // $("#ReceipiesTab").append($currentEl)
-
-
-
-
-
-
-  // $("#ReceipiesTab").html("");
-
-
-
-
-
-
-
 }
-
+// data = { "results": [{ "id": 492272, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/492272-312x231.jpg", "imageType": "jpg" }, { "id": 508108, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/508108-312x231.jpg", "imageType": "jpg" }, { "id": 419602, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/419602-312x231.jpg", "imageType": "jpg" }, { "id": 303837, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/303837-312x231.jpeg", "imageType": "jpeg" }, { "id": 938899, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/938899-312x231.jpg", "imageType": "jpg" }, { "id": 491489, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/491489-312x231.jpg", "imageType": "jpg" }, { "id": 1028851, "title": "Pasta Pomodoro", "image": "https://spoonacular.com/recipeImages/1028851-312x231.jpg", "imageType": "jpg" }, { "id": 26837, "title": "Pasta Pomodoro", "image": "https://spoonacular.com/recipeImages/26837-312x231.jpg", "imageType": "jpg" }, { "id": 512386, "title": "Pasta Al Forno", "image": "https://spoonacular.com/recipeImages/512386-312x231.jpg", "imageType": "jpg" }, { "id": 376546, "title": "Pasta Primavera", "image": "https://spoonacular.com/recipeImages/376546-312x231.jpeg", "imageType": "jpeg" }], "offset": 0, "number": 10, "totalResults": 1749 }
+// function drawReceipies() {
+//   var el = `<div class="grid-x grid-padding-x">`;
+//   for (var i = 0; i < data.results.length; i++) {
+//     el +=
+//       ` 
+//    <div  class="large-6 medium-6 cell" >
+//    <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${data.results[i].image}" alt="${data.results[i].title}'s image">
+//    </div>
+//    <div  class="large-6 medium-6 cell"  >
+//    <h4 id="dish_${i}" onClick="dishClick(${i})" style="align-text: center; margin-top: 2rem " value="${data.results[i].id}">${i + 1}. ${data.results[i].title}</h4> 
+//   </div>
+//    `
+//   }
+//   $currentEl = document.createElement('div');
+//   $currentEl.innerHTML = el + "</div>";
+//   $("#ReceipiesTab").empty();
+//   $("#ReceipiesTab").append($currentEl);
+// }
 $('#receipiesForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
   var foodName = $("#dishesChoice2").val();
   apiKeyReceipy = $("#apikeyReceipy").val();
   if (apiKeyReceipy === "") {
-    alertCall("Please enter something! I have no idea what you like to eat");
+    alertCall("Please enter api Key! Can't go without it");
     return;
   }
   var receipiesURL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + apiKeyReceipy;
@@ -336,9 +299,9 @@ $('#receipiesForm').submit(function (event) {
   }
   receipiesURL += "&query=" + foodName;
 
-
-  drawReceipies()
-  // recepiesSearch(receipiesURL);
+  // SWITCH to 
+  // drawReceipies()
+  recepiesSearch(receipiesURL);
 });
 
 inputdata("Please input your API key");
