@@ -98,8 +98,8 @@ function drawRestaurants(res) {
     // restaurantIcon needs to be changed
     if (restaurants.results[i]['photos']) {
       // var restaurantIcon = restaurants.results[i].photos.photo_reference;
+      // placeholder image
       var restaurantIcon = "./assets/images/burgerplaceholder.jpg"
-      
       var cardImage = $(`<img src='${restaurantIcon}' alt='restaurant Icon'>`);
     }
     else {
@@ -146,6 +146,14 @@ function drawRestaurants(res) {
       starRating = "./assets/images/5star.png"
     }
 
+    var priceLevel;
+    priceLevel = restaurants.results[i].price_level;
+    var priceSymbol;
+
+    for(var x = 0; x <= priceLevel; x++){
+      priceSymbol = "$";
+      priceSymbol = priceSymbol.repeat(x);
+    }
     
 
     var restaurantCell = $("<div class='cell'>")
@@ -154,7 +162,8 @@ function drawRestaurants(res) {
     var cardTextSection = $(`<div class='card-section'>`);
     var cardSectionHeader = $(`<h4>Restaurant Info:</h4>`);
     var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
-    var cardSectionStarRating = $(`<p><img src='${starRating}' alt='starRating'></img></p>`);
+    var cardSectionStarRating = $(`<p><img src='${starRating}' alt='starRating' style='max-width: 40%;'></img></p>`);
+    var cardSectionPrice = $(`<p>Price Level: ${priceSymbol}</p>`);
     var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
 
     $(restaurantCard).append(cardHeader);
@@ -162,7 +171,8 @@ function drawRestaurants(res) {
     $(restaurantCard).append(cardSectionHeader);
     $(restaurantCard).append(cardTextSection);
     $(cardTextSection).append(cardSectionRating);
-    $(cardTextSection).append(cardSectionStarRating)
+    $(cardTextSection).append(cardSectionStarRating);
+    $(cardTextSection).append(cardSectionPrice);
     $(cardTextSection).append(cardSectionlocation);
     $(cardTextSection).append(openConfirm);
     $(restaurantCell).append(restaurantCard);
