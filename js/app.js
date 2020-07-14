@@ -71,78 +71,80 @@ function restaurantSearch() {
     //     https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=YOUR_API_KEY
     url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius * 1600}&type=restaurant&keyword=${cusineChoice}&key=${apiKey}`,
     method: "GET",
-    success: function (restaurants) {
+  })
+    .then(function (response) {
       console.log(restaurants)
       // Creates cards for search results
-for(var i = 0; i < restaurants.results.length; i++){
-  console.log(restaurants.results[i]);
-  var restaurantlocation = restaurants.results[i].vicinity;
-  var restaurantRating = restaurants.results[i].rating;
-  var restaurantName = restaurants.results[i].name;
-
-  // restaurantIcon needs to be changed
-  if(restaurants.results['photos']){
-  var restaurantIcon = restaurants.results[i].photos.photo_reference;
-  var cardImage = $(`<img src='${restaurantIcon}' alt='restaurant Icon'>`);
-  }
-  else{
-    var cardImage = $(`<img src='' alt='restaurant Icon'>`);
-  }
-
-  if(restaurants.results[i]['opening_hours']){
-    if(restaurants.results[i].opening_hours['open_now']){
-      var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
-    }
-    if(restaurants.results[i].opening_hours['open_now'] === false){
-      var openConfirm = $(`<p style='color: red;'>Closed</p>`);
-    }
-  }
-  else{
-    var openConfirm = $(`<p style='color: yellow;'>No Info</p>`);
-  }
-
-  var restaurantCell = $("<div class='cell'>")
-  var restaurantCard = $("<div class='card'>");
-  var cardHeader = $(`<div class='card-divider' value='${restaurants.results[i].id}'>${restaurantName}</div>`);
-  var cardTextSection = $(`<div class='card-section'>`);
-  var cardSectionHeader = $(`<h4>Restaurant Info:</h4>`);
-  var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
-  var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
-
-  
-  $(restaurantCard).append(cardHeader);
-  $(restaurantCard).append(cardImage);
-  $(restaurantCard).append(cardTextSection);
-  $(cardTextSection).append(cardSectionRating);
-  $(cardTextSection).append(cardSectionlocation);
-  $(cardTextSection).append(openConfirm);
-  $(restaurantCell).append(restaurantCard);
-  $("#restaurantList").append(restaurantCell);
+      drawRestaurants(response);
+    });
 }
 
+function drawRestaurants(restaurants) {
+  for (var i = 0; i < restaurants.results.length; i++) {
+    console.log(restaurants.results[i]);
+    var restaurantlocation = restaurants.results[i].vicinity;
+    var restaurantRating = restaurants.results[i].rating;
+    var restaurantName = restaurants.results[i].name;
+
+    // restaurantIcon needs to be changed
+    if (restaurants.results['photos']) {
+      var restaurantIcon = restaurants.results[i].photos.photo_reference;
+      var cardImage = $(`<img src='${restaurantIcon}' alt='restaurant Icon'>`);
     }
-  });
+    else {
+      var cardImage = $(`<img src='' alt='restaurant Icon'>`);
+    }
+
+    if (restaurants.results[i]['opening_hours']) {
+      if (restaurants.results[i].opening_hours['open_now']) {
+        var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
+      }
+      if (restaurants.results[i].opening_hours['open_now'] === false) {
+        var openConfirm = $(`<p style='color: red;'>Closed</p>`);
+      }
+    }
+    else {
+      var openConfirm = $(`<p style='color: yellow;'>No Info</p>`);
+    }
+
+    var restaurantCell = $("<div class='cell'>")
+    var restaurantCard = $("<div class='card'>");
+    var cardHeader = $(`<div class='card-divider' value='${restaurants.results[i].id}'>${restaurantName}</div>`);
+    var cardTextSection = $(`<div class='card-section'>`);
+    var cardSectionHeader = $(`<h4>Restaurant Info:</h4>`);
+    var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
+    var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
 
 
-
-  // contentType: "application/json",
-  // }).then(function (response) {
-  //   console.log(response)
-  // });
-
-
-
-  // method: "GET",
-  // headers: {"Access-Control-Allow-Origin": "*"}
-  // }).then(function (response) {
-  // console.log(response)
-  // }).catch(function (error) {
-  // if error use default
-
-  // alertCall("ERRRoRRR! #"+error.status)
-  // });
-
+    $(restaurantCard).append(cardHeader);
+    $(restaurantCard).append(cardImage);
+    $(restaurantCard).append(cardTextSection);
+    $(cardTextSection).append(cardSectionRating);
+    $(cardTextSection).append(cardSectionlocation);
+    $(cardTextSection).append(openConfirm);
+    $(restaurantCell).append(restaurantCard);
+    $("#restaurantList").append(restaurantCell);
+  }
 }
+// contentType: "application/json",
+// }).then(function (response) {
+//   console.log(response)
+// });
+
+
+
+// method: "GET",
+// headers: {"Access-Control-Allow-Origin": "*"}
+// }).then(function (response) {
+// console.log(response)
+// }).catch(function (error) {
+// if error use default
+
+// alertCall("ERRRoRRR! #"+error.status)
+// });
+
+
+
 
 $('#restaurantForm').submit(function (event) {
   event.preventDefault();
@@ -164,7 +166,7 @@ $('#restaurantForm').submit(function (event) {
   }
   restaurantSearch();
   alertCall("pass!");
-  console.log(restaurants);
+  // console.log(restaurants);
 });
 
 function recepiesSearch(url) {
@@ -193,7 +195,7 @@ function recepiesSearch(url) {
     // }
     // $("#ReceipiesTab").empty();
     // $("#ReceipiesTab").innerHTML(el);
-    
+
 
 
     // $currentEl = document.createElement('div');
@@ -1327,7 +1329,7 @@ $('#restaurantForm').submit(function (event) {
   }
   // restaurantSearch();
   alertCall("pass!");
-  console.log(restaurants);
+  // console.log(restaurants);
 });
 
 inputdata("Please input your API key");
