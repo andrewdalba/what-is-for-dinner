@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
-.grid-container
+/* getting rid of this margin styling centers the page */
+/* .grid-container
 {
     margin-left: 0.5rem;
-}
+} */
 #inputModal
 {
    border-radius: 2rem;
