@@ -94,6 +94,7 @@ function drawRestaurants(res) {
     var restaurantlocation = restaurants.results[i].vicinity;
     var restaurantRating = restaurants.results[i].rating;
     var restaurantName = restaurants.results[i].name;
+    var starRating;
     // restaurantIcon needs to be changed
     if (restaurants.results[i]['photos']) {
       // var restaurantIcon = restaurants.results[i].photos.photo_reference;
@@ -117,12 +118,43 @@ function drawRestaurants(res) {
       var openConfirm = $(`<p style='color: yellow;'>No Info</p>`);
     }
 
+    if(restaurantRating < 1.5){
+      starRating = "./assets/images/1star.png"
+    }
+    if(restaurantRating >= 1.5 && restaurantRating < 2){
+      starRating = "./assets/images/1.5star.png"
+    }
+    if(restaurantRating >= 2 && restaurantRating < 2.5){
+      starRating = "./assets/images/2star.png"
+    }
+    if(restaurantRating >= 2.5 && restaurantRating < 3){
+      starRating = "./assets/images/2.5star.png"
+    }
+    if(restaurantRating >= 3 && restaurantRating < 3.5){
+      starRating = "./assets/images/3star.png"
+    }
+    if(restaurantRating >= 3.5 && restaurantRating < 4){
+      starRating = "./assets/images/3.5star.png"
+    }
+    if(restaurantRating >= 4 && restaurantRating < 4.5){
+      starRating = "./assets/images/4star.png"
+    }
+    if(restaurantRating >= 4.5 && restaurantRating < 5){
+      starRating = "./assets/images/4.5star.png"
+    }
+    if(restaurantRating >= 5){
+      starRating = "./assets/images/5star.png"
+    }
+
+    
+
     var restaurantCell = $("<div class='cell'>")
     var restaurantCard = $("<div class='card'>");
     var cardHeader = $(`<div class='card-divider' value='${restaurants.results[i].id}'>${restaurantName}</div>`);
     var cardTextSection = $(`<div class='card-section'>`);
     var cardSectionHeader = $(`<h4>Restaurant Info:</h4>`);
     var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
+    var cardSectionStarRating = $(`<p><img src='${starRating}' alt='starRating'></img></p>`);
     var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
 
     $(restaurantCard).append(cardHeader);
@@ -130,6 +162,7 @@ function drawRestaurants(res) {
     $(restaurantCard).append(cardSectionHeader);
     $(restaurantCard).append(cardTextSection);
     $(cardTextSection).append(cardSectionRating);
+    $(cardTextSection).append(cardSectionStarRating)
     $(cardTextSection).append(cardSectionlocation);
     $(cardTextSection).append(openConfirm);
     $(restaurantCell).append(restaurantCard);
