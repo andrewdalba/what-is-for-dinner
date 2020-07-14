@@ -1,7 +1,7 @@
 // Foundation.Abide.defaults.patterns['API-pattern'] = /^[0-9A-Za-z-\\.@:%_\+~#=]+$/;
 $(document).foundation()
 var x = $("#location_input");
-var lat, lon, milesRadius, cusineChoice;
+var lat, lon, milesRadius, cusineChoice, photoRef;
 var apiKey = "";
 var apiKeyReceipy = "";
 var data = {};
@@ -70,6 +70,7 @@ function inputdata(textAlert) {
   $("#alertText1").text(textAlert);
   $('#inputModal').foundation('open');
 }
+
 function restaurantSearch() {
   var params = {};
   params.target = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius * 1600}&type=restaurant&keyword=${cusineChoice}&key=${apiKey}`;
@@ -82,6 +83,10 @@ function restaurantSearch() {
   });
 }
 
+
+
+
+
 function drawRestaurants(res) {
   restaurants = JSON.parse(res);
   for (var i = 0; i < restaurants.results.length; i++) {
@@ -89,14 +94,15 @@ function drawRestaurants(res) {
     var restaurantlocation = restaurants.results[i].vicinity;
     var restaurantRating = restaurants.results[i].rating;
     var restaurantName = restaurants.results[i].name;
-
     // restaurantIcon needs to be changed
-    if (restaurants.results['photos']) {
-      var restaurantIcon = restaurants.results[i].photos.photo_reference;
+    if (restaurants.results[i]['photos']) {
+      // var restaurantIcon = restaurants.results[i].photos.photo_reference;
+      var restaurantIcon = "./assets/images/burgerplaceholder.jpg"
+      
       var cardImage = $(`<img src='${restaurantIcon}' alt='restaurant Icon'>`);
     }
     else {
-      var cardImage = $(`<img src='' alt='restaurant Icon'>`);
+      var cardImage = $(`<img src='' alt='NO restaurant Icon'>`);
     }
 
     if (restaurants.results[i]['opening_hours']) {
@@ -121,6 +127,7 @@ function drawRestaurants(res) {
 
     $(restaurantCard).append(cardHeader);
     $(restaurantCard).append(cardImage);
+    $(restaurantCard).append(cardSectionHeader);
     $(restaurantCard).append(cardTextSection);
     $(cardTextSection).append(cardSectionRating);
     $(cardTextSection).append(cardSectionlocation);
@@ -129,6 +136,11 @@ function drawRestaurants(res) {
     $("#restaurantList").append(restaurantCell);
   }
 };
+
+
+
+
+
 // contentType: "application/json",
 // }).then(function (response) {
 //   console.log(response)
