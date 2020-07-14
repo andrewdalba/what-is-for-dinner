@@ -71,22 +71,19 @@ function inputdata(textAlert) {
   $('#inputModal').foundation('open');
 }
 function restaurantSearch() {
-  $(document).foundation()
+  var params = {};
+  params.target = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius * 1600}&type=restaurant&keyword=${cusineChoice}&key=${apiKey}`;
   $.ajax({
-    //     https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=YOUR_API_KEY
-    url: `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius * 1600}&type=restaurant&keyword=${cusineChoice}&key=${apiKey}`,
-    method: "GET",
-    dataType: "jsonp"
-
-  })
-    .then(function (response) {
-      console.log(restaurants)
+      url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+      method: 'GET'
+  }).then(function (response) {
       // Creates cards for search results
       drawRestaurants(response);
     });
 }
 
-function drawRestaurants(restaurants) {
+function drawRestaurants(res) {
+  restaurants=JSON.parse(res);
   for (var i = 0; i < restaurants.results.length; i++) {
     console.log(restaurants.results[i]);
     var restaurantlocation = restaurants.results[i].vicinity;
@@ -249,25 +246,6 @@ function recepiesSearch(url) {
     alertCall("Errors!!! receipies Search " + error.status);
   });
 }
-// data = { "results": [{ "id": 492272, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/492272-312x231.jpg", "imageType": "jpg" }, { "id": 508108, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/508108-312x231.jpg", "imageType": "jpg" }, { "id": 419602, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/419602-312x231.jpg", "imageType": "jpg" }, { "id": 303837, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/303837-312x231.jpeg", "imageType": "jpeg" }, { "id": 938899, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/938899-312x231.jpg", "imageType": "jpg" }, { "id": 491489, "title": "Pasta Fagioli", "image": "https://spoonacular.com/recipeImages/491489-312x231.jpg", "imageType": "jpg" }, { "id": 1028851, "title": "Pasta Pomodoro", "image": "https://spoonacular.com/recipeImages/1028851-312x231.jpg", "imageType": "jpg" }, { "id": 26837, "title": "Pasta Pomodoro", "image": "https://spoonacular.com/recipeImages/26837-312x231.jpg", "imageType": "jpg" }, { "id": 512386, "title": "Pasta Al Forno", "image": "https://spoonacular.com/recipeImages/512386-312x231.jpg", "imageType": "jpg" }, { "id": 376546, "title": "Pasta Primavera", "image": "https://spoonacular.com/recipeImages/376546-312x231.jpeg", "imageType": "jpeg" }], "offset": 0, "number": 10, "totalResults": 1749 }
-// function drawReceipies() {
-//   var el = `<div class="grid-x grid-padding-x">`;
-//   for (var i = 0; i < data.results.length; i++) {
-//     el +=
-//       ` 
-//    <div  class="large-6 medium-6 cell" >
-//    <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${data.results[i].image}" alt="${data.results[i].title}'s image">
-//    </div>
-//    <div  class="large-6 medium-6 cell"  >
-//    <h4 id="dish_${i}" onClick="dishClick(${i})" style="align-text: center; margin-top: 2rem " value="${data.results[i].id}">${i + 1}. ${data.results[i].title}</h4> 
-//   </div>
-//    `
-//   }
-//   $currentEl = document.createElement('div');
-//   $currentEl.innerHTML = el + "</div>";
-//   $("#ReceipiesTab").empty();
-//   $("#ReceipiesTab").append($currentEl);
-// }
 $('#receipiesForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
@@ -298,14 +276,36 @@ $('#receipiesForm').submit(function (event) {
     receipiesURL += "&excludeIngredients=" + $("#excludeChoice").val();
   }
   receipiesURL += "&query=" + foodName;
-
-  // SWITCH to 
-  // drawReceipies()
   recepiesSearch(receipiesURL);
 });
 
 inputdata("Please input your API key");
 
+
+$('#restaurantForm').submit(function (event) {
+  event.preventDefault();
+  // validate input before proceed
+  var textLocation = $("#location_input").val();
+  cusineChoice = $("#cusineChoice").val();
+  milesRadius = $("#milesRadius").val();
+  var dishesChoice = $("#dishesChoice").val();
+  if (!lat) {
+    getLocation();
+  }
+  if (!milesRadius) {
+    alertCall("Please enter radious of search");
+    return;
+  };
+  if ((!dishesChoice) && (!cusineChoice)) {
+    alertCall("Please enter something! I have no idea what you like to eat");
+    return;
+  }
+  restaurantSearch();
+  alertCall("pass!");
+  // console.log(restaurants);
+});
+
+inputdata("Please input your API key");
 
 
 
@@ -1359,30 +1359,4 @@ inputdata("Please input your API key");
 // }
 
 
-
-
-$('#restaurantForm').submit(function (event) {
-  event.preventDefault();
-  // validate input before proceed
-  var textLocation = $("#location_input").val();
-  cusineChoice = $("#cusineChoice").val();
-  milesRadius = $("#milesRadius").val();
-  var dishesChoice = $("#dishesChoice").val();
-  if (!lat) {
-    getLocation();
-  }
-  if (!milesRadius) {
-    alertCall("Please enter radious of search");
-    return;
-  };
-  if ((!dishesChoice) && (!cusineChoice)) {
-    alertCall("Please enter something! I have no idea what you like to eat");
-    return;
-  }
-  // restaurantSearch();
-  alertCall("pass!");
-  // console.log(restaurants);
-});
-
-inputdata("Please input your API key");
 
