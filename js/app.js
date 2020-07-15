@@ -37,35 +37,6 @@ $('#modalForm').submit(function (event) {
 });
 
 
-
-// class FancyPrompt {
-//   constructor(a) {
-//     this.textforTop = a;
-//   }
-//   // method
-//    theValue() {
-//     $("#alertText1").text(this.textforTop);
-//     var textinput;
-//     var finishCheck = false;
-//     popup.open();
-//     $('#modalForm').submit(function (event) {
-//       event.preventDefault();
-//       // validate input before 
-//       var textinput = $("#modal_input").val();
-//       if (textinput != "") {
-//         finishCheck = true;
-//         popup.close;
-//         return;
-//       }
-//     });
-//     while(!finishCheck){
-//       new Promise(resolve => setTimeout(resolve, 500));
-//     }
-//     return textinput
-//   }
-// }
-
-
 function inputdata(textAlert) {
   $("#alertText1").text(textAlert);
   $('#inputModal').foundation('open');
@@ -84,37 +55,37 @@ function restaurantSearch() {
   });
 }
 
-function findImg(n){
-  
-    var params={};
-    var imghold="";
-    var links=[restaurants.results.length];
-    imgRef=restaurants.results[n].photos[0].photo_reference;
-    params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
-    $.ajax({
-      url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
-      method: 'GET'
-    }).then(function (response) {
-      // Creates cards for search results
-      imghold=response.slice(response.search("HREF")+6);
-      imghold=imghold.slice(0,imghold.search(">")-1);
-    alertCall(imghold);
-    $("#img"+n).attr("src",imghold);
-    });
-    new Promise(resolve => setTimeout(resolve, 3000));
-    // alertCall("wait")
-    // while (linkRef===""){
-    //   new Promise(resolve => setTimeout(resolve, 3000));
-    // }
+function findImg(n) {
 
-  
+  var params = {};
+  var imghold = "";
+  var links = [restaurants.results.length];
+  imgRef = restaurants.results[n].photos[0].photo_reference;
+  params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
+  $.ajax({
+    url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+    method: 'GET'
+  }).then(function (response) {
+    // Creates cards for search results
+    imghold = response.slice(response.search("HREF") + 6);
+    imghold = imghold.slice(0, imghold.search(">") - 1);
+    // alertCall(imghold);
+    $("#img" + n).attr("src", imghold);
+  });
+  new Promise(resolve => setTimeout(resolve, 3000));
+  // alertCall("wait")
+  // while (linkRef===""){
+  //   new Promise(resolve => setTimeout(resolve, 3000));
+  // }
+
+
 }
 
 
 
 function drawRestaurants(res) {
-  var imgRef='';
-  var linkRef='';
+  var imgRef = '';
+  var linkRef = '';
   restaurants = JSON.parse(res);
   for (var i = 0; i < restaurants.results.length; i++) {
     // console.log(restaurants.results[i]);
@@ -123,18 +94,15 @@ function drawRestaurants(res) {
     var restaurantName = restaurants.results[i].name;
     var starRating;
 
-    // restaurantIcon needs to be changed
     if (restaurants.results[i]['photos']) {
-      // var restaurantIcon = restaurants.results[i].photos.photo_reference;
-      // placeholder image
-      var restaurantIcon ="./assets/images/burgerplaceholder.jpg"
-      var cardImage = $(`<img id='img${i}' src='${restaurantIcon}' alt='restaurant Icon'>`);
-      cardImage.attr("onClick", `findImg(${i})`);
+      var restaurantIcon = "./assets/images/burgerplaceholder.jpg"
+      var cardImage = $(`<img id='img${i}' src='${restaurantIcon}' style='max-height: 250px' alt='restaurant Icon'>`);
+      findImg(i);
     }
     else {
       var cardImage = $(`<img src='' alt='NO restaurant Icon'>`);
     }
-    
+
     if (restaurants.results[i]['opening_hours']) {
       if (restaurants.results[i].opening_hours['open_now']) {
         var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
@@ -197,7 +165,7 @@ function drawRestaurants(res) {
 
     $(restaurantCard).append(cardHeader);
     $(restaurantCard).append(cardImage);
-    $(restaurantCard).append(cardSectionHeader);
+    // $(restaurantCard).append(cardSectionHeader);
     $(restaurantCard).append(cardTextSection);
     $(cardTextSection).append(cardSectionRating);
     $(cardTextSection).append(cardSectionStarRating);
@@ -207,57 +175,10 @@ function drawRestaurants(res) {
     $(restaurantCell).append(restaurantCard);
     $("#restaurantList").append(restaurantCell);
   }
-  
-}
+
+};
 
 
-
-
-
-
-
-// contentType: "application/json",
-// }).then(function (response) {
-//   console.log(response)
-// });
-
-
-
-// method: "GET",
-// headers: {"Access-Control-Allow-Origin": "*"}
-// }).then(function (response) {
-// console.log(response)
-// }).catch(function (error) {
-// if error use default
-
-// alertCall("ERRRoRRR! #"+error.status)
-// });
-
-
-
-
-$('#restaurantForm').submit(function (event) {
-  event.preventDefault();
-  // validate input before proceed
-  var textLocation = $("#location_input").val();
-  cusineChoice = $("#cusineChoice").val();
-  milesRadius = $("#milesRadius").val();
-  var dishesChoice = $("#dishesChoice").val();
-  if (!lat) {
-    getLocation();
-  }
-  if (!milesRadius) {
-    alertCall("Please enter radious of search");
-    return;
-  };
-  if ((!dishesChoice) && (!cusineChoice)) {
-    alertCall("Please enter something! I have no idea what you like to eat");
-    return;
-  }
-  restaurantSearch();
-  // alertCall("pass!");
-  // console.log(restaurants);
-});
 function dishClick(n) {
   var dishId = $("#dish_" + n).attr("value");
   $("#ReceipyTitle").text(data.results[n].title)
@@ -403,6 +324,6 @@ function videoSearch(key, maxRes, search) {
     console.log(data)
   });
 }
-  inputdata("Please input your API key");
+inputdata("Please input your API key");
 
   // videoSearch("AIzaSyCZKj_F4Qqpe0V2kyTI7Tr9h9nYTD6f1nM", 10, "pasta+cooking");
