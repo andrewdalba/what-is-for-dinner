@@ -80,20 +80,34 @@ function restaurantSearch() {
   }).then(function (response) {
     // Creates cards for search results
     drawRestaurants(response);
+    findImg();
   });
 }
 
-function findImg(imgRef){
-console.log(imgRef);
-var params={};
-params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
-$.ajax({
-  url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
-  method: 'GET'
-}).then(function (response) {
-  // Creates cards for search results
-  return response;
-});
+function findImg(n){
+  
+    var params={};
+    var imghold="";
+    var links=[restaurants.results.length];
+    imgRef=restaurants.results[n].photos[0].photo_reference;
+    params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
+    $.ajax({
+      url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+      method: 'GET'
+    }).then(function (response) {
+      // Creates cards for search results
+      imghold=response.slice(response.search("HREF")+6);
+      imghold=imghold.slice(0,imghold.search(">")-1);
+    alertCall(imghold);
+    $("#img"+n).attr("src",imghold);
+    });
+    new Promise(resolve => setTimeout(resolve, 3000));
+    // alertCall("wait")
+    // while (linkRef===""){
+    //   new Promise(resolve => setTimeout(resolve, 3000));
+    // }
+
+  
 }
 
 
@@ -115,6 +129,7 @@ function drawRestaurants(res) {
       // placeholder image
       var restaurantIcon ="./assets/images/burgerplaceholder.jpg"
       var cardImage = $(`<img id='img${i}' src='${restaurantIcon}' alt='restaurant Icon'>`);
+      cardImage.attr("onClick", `findImg(${i})`);
     }
     else {
       var cardImage = $(`<img src='' alt='NO restaurant Icon'>`);
@@ -192,27 +207,8 @@ function drawRestaurants(res) {
     $(restaurantCell).append(restaurantCard);
     $("#restaurantList").append(restaurantCell);
   }
-  for (i=0; i < restaurants.results.length; i++) {
-    var params={};
-    var links=[restaurants.results.length];
-    imgRef=""
-    params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
-    $.ajax({
-      url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
-      method: 'GET'
-    }).then(function (response) {
-      // Creates cards for search results
-      linkRef=response.slice(response.search("HREF")+6);
-    linkRef=linkRef.slice(0,linkRef.search(">")-1);
-    $("#img"+i).attr("src",linkRef)
-    });
-    // alertCall("wait")
-    // while (linkRef===""){
-    //   new Promise(resolve => setTimeout(resolve, 3000));
-    }
-
-  };
-
+  
+}
 
 
 
@@ -259,7 +255,7 @@ $('#restaurantForm').submit(function (event) {
     return;
   }
   restaurantSearch();
-  alertCall("pass!");
+  // alertCall("pass!");
   // console.log(restaurants);
 });
 function dishClick(n) {
@@ -392,7 +388,7 @@ $('#restaurantForm').submit(function (event) {
     return;
   }
   restaurantSearch();
-  alertCall("pass!");
+  // alertCall("pass!");
   // console.log(restaurants);
 });
 
