@@ -83,29 +83,43 @@ function restaurantSearch() {
   });
 }
 
-
+function findImg(imgRef){
+console.log(imgRef);
+var params={};
+params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
+$.ajax({
+  url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+  method: 'GET'
+}).then(function (response) {
+  // Creates cards for search results
+  return response;
+});
+}
 
 
 
 function drawRestaurants(res) {
+  var imgRef='';
+  var linkRef='';
   restaurants = JSON.parse(res);
   for (var i = 0; i < restaurants.results.length; i++) {
-    console.log(restaurants.results[i]);
+    // console.log(restaurants.results[i]);
     var restaurantlocation = restaurants.results[i].vicinity;
     var restaurantRating = restaurants.results[i].rating;
     var restaurantName = restaurants.results[i].name;
     var starRating;
+
     // restaurantIcon needs to be changed
     if (restaurants.results[i]['photos']) {
       // var restaurantIcon = restaurants.results[i].photos.photo_reference;
       // placeholder image
-      var restaurantIcon = "./assets/images/burgerplaceholder.jpg"
-      var cardImage = $(`<img src='${restaurantIcon}' alt='restaurant Icon'>`);
+      var restaurantIcon ="./assets/images/burgerplaceholder.jpg"
+      var cardImage = $(`<img id='img${i}' src='${restaurantIcon}' alt='restaurant Icon'>`);
     }
     else {
       var cardImage = $(`<img src='' alt='NO restaurant Icon'>`);
     }
-
+    
     if (restaurants.results[i]['opening_hours']) {
       if (restaurants.results[i].opening_hours['open_now']) {
         var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
@@ -118,31 +132,31 @@ function drawRestaurants(res) {
       var openConfirm = $(`<p style='color: yellow;'>No Info</p>`);
     }
 
-    if(restaurantRating < 1.5){
+    if (restaurantRating < 1.5) {
       starRating = "./assets/images/1star.png"
     }
-    if(restaurantRating >= 1.5 && restaurantRating < 2){
+    if (restaurantRating >= 1.5 && restaurantRating < 2) {
       starRating = "./assets/images/1.5star.png"
     }
-    if(restaurantRating >= 2 && restaurantRating < 2.5){
+    if (restaurantRating >= 2 && restaurantRating < 2.5) {
       starRating = "./assets/images/2star.png"
     }
-    if(restaurantRating >= 2.5 && restaurantRating < 3){
+    if (restaurantRating >= 2.5 && restaurantRating < 3) {
       starRating = "./assets/images/2.5star.png"
     }
-    if(restaurantRating >= 3 && restaurantRating < 3.5){
+    if (restaurantRating >= 3 && restaurantRating < 3.5) {
       starRating = "./assets/images/3star.png"
     }
-    if(restaurantRating >= 3.5 && restaurantRating < 4){
+    if (restaurantRating >= 3.5 && restaurantRating < 4) {
       starRating = "./assets/images/3.5star.png"
     }
-    if(restaurantRating >= 4 && restaurantRating < 4.5){
+    if (restaurantRating >= 4 && restaurantRating < 4.5) {
       starRating = "./assets/images/4star.png"
     }
-    if(restaurantRating >= 4.5 && restaurantRating < 5){
+    if (restaurantRating >= 4.5 && restaurantRating < 5) {
       starRating = "./assets/images/4.5star.png"
     }
-    if(restaurantRating >= 5){
+    if (restaurantRating >= 5) {
       starRating = "./assets/images/5star.png"
     }
 
@@ -150,11 +164,11 @@ function drawRestaurants(res) {
     priceLevel = restaurants.results[i].price_level;
     var priceSymbol;
 
-    for(var x = 0; x <= priceLevel; x++){
+    for (var x = 0; x <= priceLevel; x++) {
       priceSymbol = "$";
       priceSymbol = priceSymbol.repeat(x);
     }
-    
+
 
     var restaurantCell = $("<div class='cell'>")
     var restaurantCard = $("<div class='card'>");
@@ -178,7 +192,29 @@ function drawRestaurants(res) {
     $(restaurantCell).append(restaurantCard);
     $("#restaurantList").append(restaurantCell);
   }
-};
+  for (i=0; i < restaurants.results.length; i++) {
+    var params={};
+    var links=[restaurants.results.length];
+    imgRef=""
+    params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
+    $.ajax({
+      url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+      method: 'GET'
+    }).then(function (response) {
+      // Creates cards for search results
+      linkRef=response.slice(response.search("HREF")+6);
+    linkRef=linkRef.slice(0,linkRef.search(">")-1);
+    $("#img"+i).attr("src",linkRef)
+    });
+    // alertCall("wait")
+    // while (linkRef===""){
+    //   new Promise(resolve => setTimeout(resolve, 3000));
+    }
+
+  };
+
+
+
 
 
 
@@ -333,7 +369,8 @@ $('#receipiesForm').submit(function (event) {
   recepiesSearch(receipiesURL);
 });
 
-inputdata("Please input your API key");
+
+
 
 
 $('#restaurantForm').submit(function (event) {
@@ -359,4 +396,17 @@ $('#restaurantForm').submit(function (event) {
   // console.log(restaurants);
 });
 
-inputdata("Please input your API key");
+function videoSearch(key, maxRes, search) {
+  var params = {};
+  params.target = `http://googleapis.com/youtube/v3/search?key=${key}&type=video&part=snippet&maxResults=${maxRes}q=${search}`;
+  $.ajax({
+    url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+    method: 'GET'
+  }).then(function (data) {
+    // Creates cards for search results
+    console.log(data)
+  });
+}
+  inputdata("Please input your API key");
+
+  // videoSearch("AIzaSyCZKj_F4Qqpe0V2kyTI7Tr9h9nYTD6f1nM", 10, "pasta+cooking");
