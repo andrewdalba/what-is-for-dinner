@@ -8,7 +8,28 @@ var data = {};
 var actions = {};
 var dataReceipy = {};
 var rest_details = [];
-// const recepiesAPIKey = "dff8f3f117msh752eb83c0d81eb8p10add3jsn52664fe1c35d";
+$("#location_input").change(function(){
+  // alert("The text has been changed.");
+  weatherApiLocation($("#location_input").val())
+});
+
+function weatherApiLocation(city) {
+  var queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=f2db8e1b3757f3e4e3db807ed339605e`;
+  $.ajax({
+      url: queryURL,
+      method: "GET"
+  })
+      .then(function (response) {
+        // console.log(response);
+        userLat = response.city.coord.lat;
+        userlon = response.city.coord.lon;
+        lat = response.city.coord.lat;
+        lon = response.city.coord.lon;
+        console.log(userLat);
+        console.log(userlon);
+      });
+};
+
 
 function getLocation() {
   $.ajax({
@@ -36,6 +57,7 @@ $('#modalForm').submit(function (event) {
     apiKey = textinput;
   }
 });
+
 
 $('#openRecipeAccButton').click(function () {
   $('#accordion3').addClass('is-active');
@@ -118,23 +140,7 @@ function findDetails(n) {
 }
 
 
-function weatherApiLocation(city) {
-    var queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=f2db8e1b3757f3e4e3db807ed339605e`;
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    })
-        .then(function (response) {
-          // console.log(response);
-          userLat = response.city.coord.lat;
-          userlon = response.city.coord.lon;
-          Lat = response.city.coord.lat;
-          lon = response.city.coord.lon;
-          console.log(userLat);
-          console.log(userlon);
-        });
 
-};
 
 
 
@@ -241,7 +247,7 @@ function drawRestaurants(res) {
     $(restaurantCell).append(restaurantCard);
     $("#restaurantList").append(restaurantCell);
     findDetails(i);
-    weatherApiLocation(restaurantLat, restaurantLon);
+    // weatherApiLocation(restaurantLat, restaurantLon);
   }
 
 };
@@ -389,7 +395,7 @@ $('#restaurantForm').submit(function (event) {
   // alertCall("pass!");
   // console.log(restaurants);
   expandAccordion2();
-  weatherApiLocation(textLocation);
+ 
 });
 
 function expandAccordion2() {
