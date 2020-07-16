@@ -240,7 +240,7 @@ function recepiesSearch(url) {
        <div  class="large-6 medium-6 cell" >
         <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${data.results[i].image}" alt="${data.results[i].title}'s image">
        </div>
-       <div  class="large-6 medium-6 cell"  >
+       <div  class="large-6 medium-6 cell recipeName"  >
          <h4 id="dish_${i}" onClick="dishClick(${i})" style="align-text: center; margin-top: 2rem " value="${data.results[i].id}">${i + 1}. ${data.results[i].title}</h4> 
        </div>
        `

@@ -102,6 +102,9 @@ p.anim {
 
 }
 
+.recipeName:hover{
+  color: yellow;
+}
 
 /* Animate Background Image */
 
