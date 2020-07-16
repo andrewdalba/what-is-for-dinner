@@ -185,7 +185,6 @@ function drawRestaurants(res) {
     var restaurantCard = $("<div class='card'>");
     var cardHeader = $(`<div class='card-divider' value='${restaurants.results[i].id}'>${restaurantName}</div>`);
     var cardTextSection = $(`<div class='card-section'>`);
-    var cardSectionHeader = $(`<h4>Restaurant Info:</h4>`);
     var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
     var cardSectionStarRating = $(`<p><img src='${starRating}' alt='starRating' style='max-width: 40%;'></img></p>`);
     var cardSectionPrice = $(`<p>Price Level: ${priceSymbol}</p>`);
@@ -196,7 +195,6 @@ function drawRestaurants(res) {
 
     $(restaurantCard).append(cardHeader);
     $(restaurantCard).append(cardImage);
-    // $(restaurantCard).append(cardSectionHeader);
     $(restaurantCard).append(cardTextSection);
     $(cardTextSection).append(cardSectionRating);
     $(cardTextSection).append(cardSectionStarRating);
@@ -352,7 +350,15 @@ $('#restaurantForm').submit(function (event) {
   restaurantSearch();
   // alertCall("pass!");
   // console.log(restaurants);
+  expandAccordion2();
 });
+
+function expandAccordion2(){
+  $('#accordion2').addClass('is-active');
+  $('#accordion2-label').attr('aria-expanded', 'true');
+  $('#accordion2-label').attr('aria-selected', 'true');
+  $('#testing1').attr('style', 'display: block;');
+}
 
 function videoSearch(key, maxRes, search) {
   var params = {};
@@ -367,3 +373,4 @@ function videoSearch(key, maxRes, search) {
 }
 
   // videoSearch("AIzaSyCZKj_F4Qqpe0V2kyTI7Tr9h9nYTD6f1nM", 10, "pasta+cooking");
+
