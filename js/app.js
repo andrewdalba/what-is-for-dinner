@@ -110,7 +110,7 @@ function findDetails(n) {
     $("#locate" + n).text("Location: " + rest_details[n].result.formatted_address);
     $("#telephone" + n).text("tel: " + rest_details[n].result.formatted_phone_number);
     if (typeof rest_details[n].result.website == "string") {
-      $("#website" + n).html(`Website: <a href="${rest_details[n].result.website}">${rest_details[n].result.website}</a>`);
+      $("#website" + n).html(`<a class="button" href="${rest_details[n].result.website}">Go to Website</a>`);
     } else {
       $("#website" + n).text('Website: NONE');
     }
