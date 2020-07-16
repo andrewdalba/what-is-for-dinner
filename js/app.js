@@ -46,7 +46,7 @@ $('#openRecipeAccButton').click(function () {
   $([document.documentElement, document.body]).animate({
     scrollTop: $("#accord3").offset().top
   }, 2000);
-})
+});
 
 
 function inputdata(textAlert) {
@@ -328,6 +328,10 @@ $('#receipiesForm').submit(function (event) {
   }
   receipiesURL += "&query=" + foodName;
   recepiesSearch(receipiesURL);
+
+  $([document.documentElement, document.body]).animate({
+    scrollTop: $("#recipeListHeader").offset().top
+  }, 2000);
 });
 
 
