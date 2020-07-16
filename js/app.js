@@ -128,6 +128,8 @@ function weatherApiLocation(city) {
           // console.log(response);
           userLat = response.city.coord.lat;
           userlon = response.city.coord.lon;
+          Lat = response.city.coord.lat;
+          lon = response.city.coord.lon;
           console.log(userLat);
           console.log(userlon);
         });
