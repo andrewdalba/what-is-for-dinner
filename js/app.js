@@ -7,6 +7,7 @@ var apiKeyReceipy = "";
 var data = {};
 var actions = {};
 var dataReceipy = {};
+var rest_details = [];
 // const recepiesAPIKey = "dff8f3f117msh752eb83c0d81eb8p10add3jsn52664fe1c35d";
 
 function getLocation() {
@@ -81,6 +82,31 @@ function findImg(n) {
 
 }
 
+function findDetails(n) {
+
+  var params = {};
+  // var imghold = "";
+  var restID = restaurants.results[n].place_id;
+
+  params.target = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${restID}&key=${apiKey}`;
+  $.ajax({
+    url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+    method: 'GET'
+  }).then(function (response) {
+    // console.log(response);
+    rest_details[n] = JSON.parse(response);
+    $("#locate" + n).html("");
+    $("#locate" + n).text("Location: " + rest_details[n].result.formatted_address);
+    $("#telephone" + n).text("tel: " + rest_details[n].result.formatted_phone_number);
+    if (typeof rest_details[n].result.website =="string") {
+      $("#website" + n).html(`Website: <a href="${rest_details[n].result.website}">${rest_details[n].result.website}</a>`);
+    } else 
+    {
+      $("#website" + n).text('Website: NONE');
+    }
+  });
+}
+
 
 
 function drawRestaurants(res) {
@@ -100,9 +126,9 @@ function drawRestaurants(res) {
       findImg(i);
     }
     else {
-      var cardImage = $(`<img src='' alt='NO restaurant Icon'>`);
+      var cardImage = $(`<img src='./assets/images/burgerplaceholder.jpg' style='max-height: 250px' alt='NO restaurant Icon'>`);
     }
-
+    
     if (restaurants.results[i]['opening_hours']) {
       if (restaurants.results[i].opening_hours['open_now']) {
         var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
@@ -161,7 +187,10 @@ function drawRestaurants(res) {
     var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
     var cardSectionStarRating = $(`<p><img src='${starRating}' alt='starRating' style='max-width: 40%;'></img></p>`);
     var cardSectionPrice = $(`<p>Price Level: ${priceSymbol}</p>`);
-    var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
+    // var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
+    var cardSectionlocation = $(`<p id = "locate${i}"> Location: ${ restaurantlocation }</p>`);
+    var cardSectiontel = $(`<p id = "telephone${i}" ></p>`);
+    var cardSectionweb = $(`<p id = "website${i}" ></p>`);
 
     $(restaurantCard).append(cardHeader);
     $(restaurantCard).append(cardImage);
@@ -171,9 +200,14 @@ function drawRestaurants(res) {
     $(cardTextSection).append(cardSectionStarRating);
     $(cardTextSection).append(cardSectionPrice);
     $(cardTextSection).append(cardSectionlocation);
+
+    $(cardTextSection).append(cardSectiontel);
+    $(cardTextSection).append(cardSectionweb);
+
     $(cardTextSection).append(openConfirm);
     $(restaurantCell).append(restaurantCard);
     $("#restaurantList").append(restaurantCell);
+    findDetails(i);
   }
 
 };
