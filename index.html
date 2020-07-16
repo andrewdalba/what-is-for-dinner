@@ -22,24 +22,27 @@
 <body>
     <!-- I put some comments here!!!!!!!!!!! -->
     <div class="grid-container">
-        <div class="grid-x grid-padding-x">
-            <div class="large-12 cell">
+        <!-- <div class="grid-x grid-padding-x">
+            <div class="large-12 cell"> -->
                 <div class="title">
                     <h1 class="headersstyle"> What is for dinner, Darling?</h1>
-                    <h5 style="text-align: center;">I bet you are VERY hungry now!</h5>
-                </div>
-            </div>
+                <!-- </div>
+            </div> -->
         </div>
 
         <ul class="accordion" data-accordion data-multi-expand="true">
-            <li class="accordion-item is-active" data-accordion-item>
+            <li class="accordion-item is-active" id="accordion1"  data-accordion-item>
                 <a href="#" class="accordion-title">Request form</a>
-                <div class="accordion-content" data-tab-content>
+                <div class="accordion-content"  data-tab-content>
                     <form id="restaurantForm">
                         <div class="grid-x grid-padding-x">
-                            <div class="large-12 cell">
+                            <div class="large-8 cell">
                                 <label>Please let me know your favorite cusines (separate them with comma)</label>
-                                <input type="text" id="cusineChoice" placeholder="Enter cuisine of your chose." />
+                                <input type="text" id="cusineChoice" placeholder="Can't leave it blank" />
+                            </div>
+                            <div class="large-4 cell">
+                                <label>Enter your API Key from Google</label>
+                                <input type="text" id="apiKeyChoice" placeholder="Enter cuisine of your chose." />
                             </div>
                         </div>
                         <div class="grid-x grid-padding-x">
@@ -59,10 +62,7 @@
                         </div>
 
                         <div class="grid-x grid-padding-x">
-                            <div class="large-8 medium-8 cell">
-                                <label>Any preference with dishes or cocktails?</label>
-                                <input type="text" placeholder="Please separate by comma" id="dishesChoice" />
-                            </div>
+                            
                             <div class="large-4 medium-4 cell">
                                 <label>Let me see what I can find for you</label>
                                 <button class="button" type="Submit">Submit </button>
@@ -71,27 +71,13 @@
                     </form>
                 </div>
             </li>
-            <li class="accordion-item" data-accordion-item>
+            <li class="accordion-item" id="accordion2" data-accordion-item>
                 <a href="#" class="accordion-title">Restaurant search results</a>
                 <div class="accordion-content" data-tab-content>
                     <div class="callout">
-
-                        <h3 class="headersstyle"
-                            style="background: linear-gradient( #9198e5,#e66465);  color: white; margin:0 ">List of
-                            restaurants based on </h3>
-
-                        <div class="grid-x grid-padding-x">
-                            <div class="large-6 medium-6 cell"
-                                style="background: linear-gradient(#e66465, #9198e5); color: white; margin:0">
-                                <h3 class="headersstyle">cusine choice</h3>
-                            </div>
-                            <div class="large-6 medium-6 cell"
-                                style="background: linear-gradient(#e66465, #9198e5); color:white; margin:0">
-                                <h3 class="headersstyle"> dishes/drinks choice</h3>
-                            </div>
+                        <div class="title">
+                           <h2 id="accord2">List of restaurants based on your cuisine preference </h2>
                         </div>
-                        <h5>So many possibilities!</h5>
-                        <p>Here got to be list of restaurants</p>
                         <div class="grid-container">
                             <div class="grid-x grid-margin-x small-up-2 medium-up-3" id="restaurantList">
 
@@ -103,18 +89,13 @@
                     </div>
                 </div>
             </li>
-            <li class="accordion-item" data-accordion-item>
+            <li class="accordion-item" id="accordion3" data-accordion-item>
                 <a href="#" class="accordion-title">Receipies search results</a>
                 <div class="accordion-content" data-tab-content>
                     <div class="callout" style="background: linear-gradient( #9198e5,#6fe664); margin:0 ">
-                        <h6 class="headersstyle">
-                            <p class="anim">Great!
-                                <span class="a">
-                                    let's cook at home!
-                                </span>
-                                &mdash; It is better and safer this way &mdash;
-                            </p>
-                        </h6>
+                        <div  class="title">
+                            <h2 id="accord3">Great! let's cook at home! It is better and safer this way </h2>
+                        </div>
                         <form id="receipiesForm">
 
                             <div class="grid-x grid-padding-x">

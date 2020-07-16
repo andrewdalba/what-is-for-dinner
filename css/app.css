@@ -31,14 +31,15 @@
 /* animations */
 /* title */
 .title {
+
+  flex-wrap: wrap;
 	font-family: "Montserrat";
 	text-align: center;
 	color: #FFF;
-	display: flex;
-	flex-direction: column;
+	display: flexbox;
 	align-items: center;
 	justify-content: center;
-	height: 30vh;
+	height: auto;
 	letter-spacing: 1px;
 }
 
@@ -50,8 +51,33 @@
  https://media.giphy.com/media/ZWTynDYLNFTQA/giphy.gif
  https://media.giphy.com/media/3oEjHC7al4GfnudR7y/giphy.gif*/
 h1 {
+  
 	background-image: url(https://media.giphy.com/media/3oEjHC7al4GfnudR7y/giphy.gif);
 	background-size: cover;
+	color: transparent;
+	-moz-background-clip: text;
+	-webkit-background-clip: text;
+	text-transform: uppercase;
+	font-size: 90px;
+	line-height: .75;
+	margin: 10px 0;
+}
+#accord2 {
+	background-image: url(https://media.giphy.com/media/QvkquwedbsAUN12K9A/giphy.gif);
+  background-size: cover;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	color: transparent;
+	-moz-background-clip: text;
+	-webkit-background-clip: text;
+	text-transform: uppercase;
+	font-size: 90px;
+	line-height: .75;
+	margin: 10px 0;
+}
+#accord3 {
+	background-image: url(https://media.giphy.com/media/ZNyMwJ2E43cq25cOOK/giphy.gif);
+  background-size: cover;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 	color: transparent;
 	-moz-background-clip: text;
 	-webkit-background-clip: text;
@@ -60,55 +86,8 @@ h1 {
 	line-height: .75;
 	margin: 10px 0;
 }
-/* 3 accordion */
-p.anim {
-	text-transform: uppercase;
-	letter-spacing: .5em;
-	display: inline-block;
-	/* border: 4px double rgba(255,255,255,.25); */
-	/* border-width: 4px 0; */
-	padding: 1.5em 0em;
-  position: relative;
-  text-align: center;
-	top:0%; /* 18%; */
-	left:0%;     /*50%;*/
-	width: 100% /*40em;*/
-  /* margin: 0 0 0 -20em; */
-}
-.a {
-
-  font: 700 4em/1 "Oswald", sans-serif;
-  letter-spacing: 0;
-  padding: .25em 0 .325em;
-  display: block;
-  margin: 0 auto;
-  text-shadow: 0 0 80px rgba(255,255,255,.5);
-
-/* Clip Background Image */
-
-  background: url(http://f.cl.ly/items/010q3E1u3p2Q0j1L1S1o/animated_text_fill.png) repeat-y;
-  -webkit-background-clip: text;
-  background-clip: text;
-
-/* Animate Background Image */
-
-  -webkit-text-fill-color: transparent;
-  -webkit-animation: aitf 80s linear infinite;
-
-/* Activate hardware acceleration for smoother animations */
-
-  -webkit-transform: translate3d(0,0,0);
-  -webkit-backface-visibility: hidden;
-
-}
 
 .recipeName:hover{
   color: yellow;
 }
 
-/* Animate Background Image */
-
-@-webkit-keyframes aitf {
-0% { background-position: 0% 50%; }
-100% { background-position: 100% 50%; }
-}

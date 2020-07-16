@@ -113,6 +113,8 @@ function drawRestaurants(res) {
   var imgRef = '';
   var linkRef = '';
   restaurants = JSON.parse(res);
+
+
   for (var i = 0; i < restaurants.results.length; i++) {
     // console.log(restaurants.results[i]);
     var restaurantlocation = restaurants.results[i].vicinity;
@@ -209,7 +211,7 @@ function drawRestaurants(res) {
     $("#restaurantList").append(restaurantCell);
     findDetails(i);
   }
-
+ 
 };
 
 
@@ -331,6 +333,11 @@ $('#restaurantForm').submit(function (event) {
   cusineChoice = $("#cusineChoice").val();
   milesRadius = $("#milesRadius").val();
   var dishesChoice = $("#dishesChoice").val();
+  apiKey=$("#apiKeyChoice").val();
+  if (!apiKey){
+    alertCall("Please enter API key! It is required!");
+    return;
+  }
   if (!lat) {
     getLocation();
   }
@@ -338,7 +345,7 @@ $('#restaurantForm').submit(function (event) {
     alertCall("Please enter radious of search");
     return;
   };
-  if ((!dishesChoice) && (!cusineChoice)) {
+  if (!cusineChoice) {
     alertCall("Please enter something! I have no idea what you like to eat");
     return;
   }
@@ -358,6 +365,5 @@ function videoSearch(key, maxRes, search) {
     console.log(data)
   });
 }
-inputdata("Please input your API key");
 
   // videoSearch("AIzaSyCZKj_F4Qqpe0V2kyTI7Tr9h9nYTD6f1nM", 10, "pasta+cooking");
