@@ -20,20 +20,22 @@
 </head>
 
 <body>
+    
+
     <!-- I put some comments here!!!!!!!!!!! -->
     <div class="grid-container">
         <!-- <div class="grid-x grid-padding-x">
             <div class="large-12 cell"> -->
-                <div class="title">
-                    <h1 class="headersstyle"> What is for dinner, Darling?</h1>
-                <!-- </div>
+        <div class="title">
+            <h1 class="headersstyle"> What is for dinner, Darling?</h1>
+            <!-- </div>
             </div> -->
         </div>
 
         <ul class="accordion" data-accordion data-multi-expand="true">
-            <li class="accordion-item is-active" id="accordion1"  data-accordion-item>
+            <li class="accordion-item is-active" id="accordion1" data-accordion-item>
                 <a href="#" class="accordion-title">Request form</a>
-                <div class="accordion-content"  data-tab-content>
+                <div class="accordion-content" data-tab-content>
                     <form id="restaurantForm">
                         <div class="grid-x grid-padding-x">
                             <div class="large-8 cell">
@@ -62,12 +64,20 @@
                         </div>
 
                         <div class="grid-x grid-padding-x">
-                            
-                            <div class="large-4 medium-4 cell">
+
+                            <div class="large-9 medium-7 cell">
                                 <label>Let me see what I can find for you</label>
                                 <button class="button" type="Submit">Submit </button>
                             </div>
+
+                            <!-- adding other button -->
+                            <div class="large-3 medium-4 cell">
+                                <p>Don't want restaurants?</p>
+                                <label>Search for Recipes</label>
+                                <button class="button small secondary" id="openRecipeAccButton" type="button">Click Here</button>
+                            </div>
                         </div>
+                        <!-- end of adding other button -->
                     </form>
                 </div>
             </li>
@@ -76,7 +86,7 @@
                 <div class="accordion-content" id="testing1" data-tab-content>
                     <div class="callout">
                         <div class="title">
-                           <h2 id="accord2">List of restaurants based on your cuisine preference </h2>
+                            <h2 id="accord2">List of restaurants based on your cuisine preference </h2>
                         </div>
                         <div class="grid-container">
                             <div class="grid-x grid-margin-x small-up-2 medium-up-3" id="restaurantList">
@@ -85,15 +95,14 @@
 
                             </div>
                         </div>
-
                     </div>
                 </div>
             </li>
             <li class="accordion-item" id="accordion3" data-accordion-item>
                 <a href="#" class="accordion-title">Receipies search results</a>
-                <div class="accordion-content" data-tab-content>
+                <div class="accordion-content" id="testing2" data-tab-content>
                     <div class="callout" style="background: linear-gradient( #9198e5,#6fe664); margin:0 ">
-                        <div  class="title">
+                        <div class="title">
                             <h2 id="accord3">Great! let's cook at home! It is better and safer this way </h2>
                         </div>
                         <form id="receipiesForm">
@@ -106,8 +115,7 @@
                                 </div>
                                 <div class="large-4 cell">
                                     <label>Please eneter apiKey</label>
-                                    <input type="text" placeholder="Please enter key here"
-                                        id="apikeyReceipy" />
+                                    <input type="text" placeholder="Please enter key here" id="apikeyReceipy" />
                                 </div>
                             </div>
                             <div class="grid-x grid-padding-x">
@@ -252,6 +260,7 @@
 
 
     </div>
+
     <!-- Modals -->
     <div class="reveal" id="alertModal" data-reveal data-animation-in="fade-in" data-animation-out="fade-out">
         <h2 style="text-align: center; " id="alertText"></h2>
@@ -290,7 +299,8 @@
         </button> -->
     </div>
     <div class="reveal" id="ReceipyModal" data-reveal data-animation-in="fade-in" data-animation-out="fade-out">
-        <h2 style="text-align: center; font-weight: 900; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em lightblue;; " id="ReceipyTitle"></h2>
+        <h2 style="text-align: center; font-weight: 900; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em lightblue;; "
+            id="ReceipyTitle"></h2>
         <div class="grid-x grid-padding-x" style="background-color: beige; opacity: 0.85;">
             <div class="large-6 medium-6 cell">
                 <p id="ingredientsList"></p>
@@ -305,7 +315,9 @@
         </button>
     </div>
     <!-- End of Modals -->
-   
+    <!-- go to top button -->
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Scroll to Top</button>
+    <!-- end of go to top button -->
 </body>
 
 </html>

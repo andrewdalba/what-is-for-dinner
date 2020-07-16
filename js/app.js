@@ -37,6 +37,17 @@ $('#modalForm').submit(function (event) {
   }
 });
 
+$('#openRecipeAccButton').click(function () {
+  $('#accordion3').addClass('is-active');
+  $('#accordion3-label').attr('aria-expanded', 'true');
+  $('#accordion3-label').attr('aria-selected', 'true');
+  $('#testing2').attr('style', 'display: block;');
+
+  $([document.documentElement, document.body]).animate({
+    scrollTop: $("#accord3").offset().top
+  }, 2000);
+})
+
 
 function inputdata(textAlert) {
   $("#alertText1").text(textAlert);
@@ -98,10 +109,9 @@ function findDetails(n) {
     $("#locate" + n).html("");
     $("#locate" + n).text("Location: " + rest_details[n].result.formatted_address);
     $("#telephone" + n).text("tel: " + rest_details[n].result.formatted_phone_number);
-    if (typeof rest_details[n].result.website =="string") {
+    if (typeof rest_details[n].result.website == "string") {
       $("#website" + n).html(`Website: <a href="${rest_details[n].result.website}">${rest_details[n].result.website}</a>`);
-    } else 
-    {
+    } else {
       $("#website" + n).text('Website: NONE');
     }
   });
@@ -130,7 +140,7 @@ function drawRestaurants(res) {
     else {
       var cardImage = $(`<img src='./assets/images/burgerplaceholder.jpg' style='max-height: 250px' alt='NO restaurant Icon'>`);
     }
-    
+
     if (restaurants.results[i]['opening_hours']) {
       if (restaurants.results[i].opening_hours['open_now']) {
         var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
@@ -189,7 +199,7 @@ function drawRestaurants(res) {
     var cardSectionStarRating = $(`<p><img src='${starRating}' alt='starRating' style='max-width: 40%;'></img></p>`);
     var cardSectionPrice = $(`<p>Price Level: ${priceSymbol}</p>`);
     // var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
-    var cardSectionlocation = $(`<p id = "locate${i}"> Location: ${ restaurantlocation }</p>`);
+    var cardSectionlocation = $(`<p id = "locate${i}"> Location: ${restaurantlocation}</p>`);
     var cardSectiontel = $(`<p id = "telephone${i}" ></p>`);
     var cardSectionweb = $(`<p id = "website${i}" ></p>`);
 
@@ -209,7 +219,7 @@ function drawRestaurants(res) {
     $("#restaurantList").append(restaurantCell);
     findDetails(i);
   }
- 
+
 };
 
 
@@ -331,8 +341,8 @@ $('#restaurantForm').submit(function (event) {
   cusineChoice = $("#cusineChoice").val();
   milesRadius = $("#milesRadius").val();
   var dishesChoice = $("#dishesChoice").val();
-  apiKey=$("#apiKeyChoice").val();
-  if (!apiKey){
+  apiKey = $("#apiKeyChoice").val();
+  if (!apiKey) {
     alertCall("Please enter API key! It is required!");
     return;
   }
@@ -353,11 +363,15 @@ $('#restaurantForm').submit(function (event) {
   expandAccordion2();
 });
 
-function expandAccordion2(){
+function expandAccordion2() {
   $('#accordion2').addClass('is-active');
   $('#accordion2-label').attr('aria-expanded', 'true');
   $('#accordion2-label').attr('aria-selected', 'true');
   $('#testing1').attr('style', 'display: block;');
+
+  $([document.documentElement, document.body]).animate({
+    scrollTop: $("#accord2").offset().top
+  }, 2000);
 }
 
 function videoSearch(key, maxRes, search) {
@@ -374,3 +388,17 @@ function videoSearch(key, maxRes, search) {
 
   // videoSearch("AIzaSyCZKj_F4Qqpe0V2kyTI7Tr9h9nYTD6f1nM", 10, "pasta+cooking");
 
+// controlling "go to top button"
+$(window).scroll(function(){
+  if($(this).scrollTop() > 500){
+    $('#myBtn').attr('style', 'display: block;');
+  }
+  else{
+    $('#myBtn').attr('style', 'display: none;');
+  }
+});
+
+function topFunction(){
+  // console.log("YOU DID IT");
+  $(window).scrollTop(0);
+};
