@@ -1,7 +1,7 @@
 // Foundation.Abide.defaults.patterns['API-pattern'] = /^[0-9A-Za-z-\\.@:%_\+~#=]+$/;
 $(document).foundation()
 var x = $("#location_input");
-var lat, lon, milesRadius, cusineChoice, photoRef;
+var lat, lon, milesRadius, cusineChoice, photoRef, userLat, userLon;
 var apiKey = "";
 var apiKeyReceipy = "";
 var data = {};
@@ -118,6 +118,23 @@ function findDetails(n) {
 }
 
 
+function weatherApiLocation(city) {
+    var queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=f2db8e1b3757f3e4e3db807ed339605e`;
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    })
+        .then(function (response) {
+          // console.log(response);
+          userLat = response.city.coord.lat;
+          userlon = response.city.coord.lon;
+          console.log(userLat);
+          console.log(userlon);
+        });
+
+};
+
+
 
 function drawRestaurants(res) {
   var imgRef = '';
@@ -128,6 +145,10 @@ function drawRestaurants(res) {
   for (var i = 0; i < restaurants.results.length; i++) {
     // console.log(restaurants.results[i]);
     var restaurantlocation = restaurants.results[i].vicinity;
+    var restaurantLat = restaurants.results[i].geometry.location.lat;
+    var restaurantLon = restaurants.results[i].geometry.location.lng;
+    console.log(restaurantLat);
+    console.log(restaurantLon);
     var restaurantRating = restaurants.results[i].rating;
     var restaurantName = restaurants.results[i].name;
     var starRating;
@@ -218,6 +239,7 @@ function drawRestaurants(res) {
     $(restaurantCell).append(restaurantCard);
     $("#restaurantList").append(restaurantCell);
     findDetails(i);
+    weatherApiLocation(restaurantLat, restaurantLon);
   }
 
 };
@@ -365,6 +387,7 @@ $('#restaurantForm').submit(function (event) {
   // alertCall("pass!");
   // console.log(restaurants);
   expandAccordion2();
+  weatherApiLocation(textLocation);
 });
 
 function expandAccordion2() {
