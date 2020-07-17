@@ -8,7 +8,9 @@ var data = {};
 var actions = {};
 var dataReceipy = {};
 var rest_details = [];
-$("#location_input").change(function(){
+var youtubeQ = "";
+var video_detail = {};
+$("#location_input").change(function () {
   // alert("The text has been changed.");
   weatherApiLocation($("#location_input").val())
 });
@@ -16,18 +18,18 @@ $("#location_input").change(function(){
 function weatherApiLocation(city) {
   var queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=f2db8e1b3757f3e4e3db807ed339605e`;
   $.ajax({
-      url: queryURL,
-      method: "GET"
+    url: queryURL,
+    method: "GET"
   })
-      .then(function (response) {
-        // console.log(response);
-        userLat = response.city.coord.lat;
-        userlon = response.city.coord.lon;
-        lat = response.city.coord.lat;
-        lon = response.city.coord.lon;
-        console.log(userLat);
-        console.log(userlon);
-      });
+    .then(function (response) {
+      // console.log(response);
+      userLat = response.city.coord.lat;
+      userlon = response.city.coord.lon;
+      lat = response.city.coord.lat;
+      lon = response.city.coord.lon;
+      console.log(userLat);
+      console.log(userlon);
+    });
 };
 
 
@@ -247,11 +249,29 @@ function drawRestaurants(res) {
     $(restaurantCell).append(restaurantCard);
     $("#restaurantList").append(restaurantCell);
     findDetails(i);
-    // weatherApiLocation(restaurantLat, restaurantLon);
+
   }
 
 };
+function videoDraw() {
+  // video_detail
+  var el_video = '';
+  for (var i = 0; i < video_detail.items.length; i++) {
+    el_video +=
+      ` 
+       <iframe width="420" height="315" src="https://www.youtube.com/embed/${video_detail.items[i].id.videoId}?controls=0"></iframe>
+ 
+         <h4  style="align-text: center; margin-top: 2rem " value="${video_detail.items[i].id.videoId}">${i + 1}. ${video_detail.items[i].snippet.title}</h4> 
+         <h6  style="align-text: left" value="${video_detail.items[i].id.videoId}"> ${video_detail.items[i].snippet.description}</h6> 
+       `
+    //  <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${video_detail.items[i].snippet.thumbnails.medium.url}" alt="${video_detail.items[i].snippet.title}'s image">   
+  }
+  $currentEl = document.createElement('div');
+  $currentEl.innerHTML = el_video + "</div>";
+  $("#videosTab").empty();
+  $("#videosTab").append($currentEl);
 
+}
 
 function dishClick(n) {
   var dishId = $("#dish_" + n).attr("value");
@@ -328,11 +348,11 @@ function recepiesSearch(url) {
   });
 }
 
-$("input#secretpan").change(function(){
+$("input#secretpan").change(function () {
 
-  if ($("#panSecret").css("opacity")==='0'){
+  if ($("#panSecret").css("opacity") === '0') {
     $("#panSecret").css("opacity", "1");
-  }else{
+  } else {
     $("#panSecret").css("opacity", "0");
   }
 })
@@ -346,6 +366,10 @@ $('#receipiesForm').submit(function (event) {
     alertCall("Please enter api Key! Can't go without it");
     return;
   }
+  youtubeQ = "";
+  if (foodName != "") {
+    youtubeQ = foodName;
+  }
   var receipiesURL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + apiKeyReceipy;
   if ($("#selType").val() != "") {
     receipiesURL += "&type=" + $("#selType").val();
@@ -356,6 +380,11 @@ $('#receipiesForm').submit(function (event) {
   receipiesURL += "&number=" + $("#returnN").val();
   if ($("#cusineChoice2").val() != "") {
     receipiesURL += "&cuisine=" + $("#cusineChoice2").val();
+    if (youtubeQ != "") {
+      youtubeQ += "+" + $("#cusineChoice2").val() + "+cooking";
+    } else {
+      youtubeQ = $("#cusineChoice2").val() + "+cooking";
+    }
   }
   if ($("#dietChoice").val() != "") {
     receipiesURL += "&diet=" + $("#dietChoice").val();
@@ -368,7 +397,13 @@ $('#receipiesForm').submit(function (event) {
   }
   receipiesURL += "&query=" + foodName;
   recepiesSearch(receipiesURL);
-
+  if ($("#apikeyYouTube").val() != "") {
+    youtubeQ = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=${$("#returnN").val()}&q=${youtubeQ}&key=${$("#apikeyYouTube").val()}`
+    videoSearch(youtubeQ)
+  } else {
+    alertCall("You need youtube APIkey to get steaming Videos")
+    youtubeQ = "";
+  }
   $([document.documentElement, document.body]).animate({
     scrollTop: $("#recipeListHeader").offset().top
   }, 2000);
@@ -405,7 +440,7 @@ $('#restaurantForm').submit(function (event) {
   // alertCall("pass!");
   // console.log(restaurants);
   expandAccordion2();
- 
+
 });
 
 function expandAccordion2() {
@@ -419,31 +454,32 @@ function expandAccordion2() {
   }, 2000);
 }
 
-function videoSearch(key, maxRes, search) {
+function videoSearch(link) {
   var params = {};
-  params.target = `http://googleapis.com/youtube/v3/search?key=${key}&type=video&part=snippet&maxResults=${maxRes}q=${search}`;
+  params.target = link;
   $.ajax({
     url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
     method: 'GET'
-  }).then(function (data) {
+  }).then(function (response) {
     // Creates cards for search results
-    console.log(data)
+    console.log(response)
+    video_detail = JSON.parse(response);
+    videoDraw();
   });
 }
 
-  // videoSearch("", 10, "pasta+cooking");
 
 // controlling "go to top button"
-$(window).scroll(function(){
-  if($(this).scrollTop() > 500){
+$(window).scroll(function () {
+  if ($(this).scrollTop() > 500) {
     $('#myBtn').attr('style', 'display: block;');
   }
-  else{
+  else {
     $('#myBtn').attr('style', 'display: none;');
   }
 });
 
-function topFunction(){
+function topFunction() {
   // console.log("YOU DID IT");
   $(window).scrollTop(0);
 };
