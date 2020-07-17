@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    
+
 
     <!-- I put some comments here!!!!!!!!!!! -->
     <div class="grid-container">
@@ -74,7 +74,8 @@
                             <div class="large-3 medium-4 cell">
                                 <p>Don't want restaurants?</p>
                                 <label>Search for Recipes</label>
-                                <button class="button small secondary" id="openRecipeAccButton" type="button">Click Here</button>
+                                <button class="button small secondary" id="openRecipeAccButton" type="button">Click
+                                    Here</button>
                             </div>
                         </div>
                         <!-- end of adding other button -->
@@ -108,80 +109,13 @@
                         <form id="receipiesForm">
 
                             <div class="grid-x grid-padding-x">
-                                <div class="large-8 cell">
+                                <div class="large-4 cell">
                                     <label>Any preference with dishes or cocktails?</label>
                                     <input type="text" placeholder="Please enter food or drink you want to find"
                                         id="dishesChoice2" />
                                 </div>
                                 <div class="large-4 cell">
-                                    <label>Please eneter apiKey</label>
-                                    <input type="text" placeholder="Please enter key here" id="apikeyReceipy" />
-                                </div>
-                            </div>
-                            <div class="grid-x grid-padding-x">
-                                <div class="large-4 medium-4 cell">
-                                    <label>Type</label>
-                                    <select id="selType">
-                                        <option value="">don know</option>
-                                        <option value="main course">main course</option>
-                                        <option value="side dish">side dish</option>
-                                        <option value="dessert">dessert</option>
-                                        <option value="appetizer">appetizer</option>
-                                        <option value="salad">salad</option>
-                                        <option value="bread">bread</option>
-                                        <option value="breakfast">breakfast</option>
-                                        <option value="soup">soup</option>
-                                        <option value="beverage">beverage</option>
-                                        <option value="sauce">sauce</option>
-                                        <option value="marinade">marinade</option>
-                                        <option value="fingerfood">fingerfood</option>
-                                        <option value="snack">snack</option>
-                                        <option value="drink">drink</option>
-                                    </select>
-                                    </label>
-                                </div>
-                                <div class="large-4 medium-4 cell">
-                                    <label>Skip records (0..900)</label>
-                                    <input type="number" min="0" max="900" id="skipN" value="0" />
-                                </div>
-                                <div class="large-4 medium-4 cell">
-                                    <label>Return records amount (1..100) </label>
-                                    <input type="number" min="1" max="100" value="10" id="returnN"
-                                        placeholder="for example: coconut" />
-                                </div>
-                            </div>
-                            <div class="grid-x grid-padding-x">
-                                <div class="large-4 medium-4 cell">
-                                    <label>Diet</label>
-                                    <input type="text" id="dietChoice" placeholder="for example: vegetarian" />
-                                </div>
-                                <div class="large-4 medium-4 cell">
-                                    <label>Intolerance</label>
-                                    <select id="outChoice" multiple>
-                                        <option value="Dairy">Dairy</option>
-                                        <option value="Egg">Egg</option>
-                                        <option value="Gluten">Gluten</option>
-                                        <option value="Grain">Grain</option>
-                                        <option value="Peanut">Peanut</option>
-                                        <option value="Seafood">Seafood</option>
-                                        <option value="Sesame">Sesame</option>
-                                        <option value="Shellfish">Shellfish</option>
-                                        <option value="Soy">Soy</option>
-                                        <option value="Sulfite">Sulfite</option>
-                                        <option value="Tree Nut">Tree Nut</option>
-                                        <option value="Wheat">Wheat</option>
-                                    </select>
-
-                                </div>
-                                <div class="large-4 medium-4 cell">
-                                    <label>Exclude Ingredients</label>
-                                    <input type="text" id="excludeChoice" placeholder="for example: coconut" />
-                                </div>
-                            </div>
-
-                            <div class="grid-x grid-padding-x">
-                                <div class="large-8 medium-8 cell">
-                                    <label>Please let me know your favorite cusines (separate them with comma)</label>
+                                    <label>Please choose your favorite cuisines(multiple choice)</label>
                                     <select name="Cusines: " id="cusineChoice2" multiple>
                                         <option value="African">African</option>
                                         <option value="American">American</option>
@@ -210,11 +144,83 @@
                                         <option value="Thai">Thai</option>
                                         <option value="Vietnamese">Vietnamese</option>
                                     </select>
-
+                                </div>
+                                <div class="large-4 cell">
+                                    <label>Dish Type</label>
+                                    <select id="selType">
+                                        <option value="">don know</option>
+                                        <option value="main course">main course</option>
+                                        <option value="side dish">side dish</option>
+                                        <option value="dessert">dessert</option>
+                                        <option value="appetizer">appetizer</option>
+                                        <option value="salad">salad</option>
+                                        <option value="bread">bread</option>
+                                        <option value="breakfast">breakfast</option>
+                                        <option value="soup">soup</option>
+                                        <option value="beverage">beverage</option>
+                                        <option value="sauce">sauce</option>
+                                        <option value="marinade">marinade</option>
+                                        <option value="fingerfood">fingerfood</option>
+                                        <option value="snack">snack</option>
+                                        <option value="drink">drink</option>
+                                    </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="grid-x grid-padding-x">
+                                <div class="large-4 medium-4 cell">
+                                    <div class="large-4 medium-4 cell">
+                                        <label>Diet</label>
+                                        <input type="text" id="dietChoice" placeholder="for example: vegetarian" />
+                                    </div>
+                                </div>
+                                <div class="large-4 medium-4 cell">
+                                    <label>Intolerance</label>
+                                    <select id="outChoice" multiple>
+                                        <option value="Dairy">Dairy</option>
+                                        <option value="Egg">Egg</option>
+                                        <option value="Gluten">Gluten</option>
+                                        <option value="Grain">Grain</option>
+                                        <option value="Peanut">Peanut</option>
+                                        <option value="Seafood">Seafood</option>
+                                        <option value="Sesame">Sesame</option>
+                                        <option value="Shellfish">Shellfish</option>
+                                        <option value="Soy">Soy</option>
+                                        <option value="Sulfite">Sulfite</option>
+                                        <option value="Tree Nut">Tree Nut</option>
+                                        <option value="Wheat">Wheat</option>
+                                    </select>
+                                </div>
+                                <div class="large-4 medium-4 cell">
+                                    <label>Exclude Ingredients</label>
+                                    <input type="text" id="excludeChoice" placeholder="for example: coconut" />
+                                </div>
+                            </div>
+                            <div class="grid-x grid-padding-x">
+                                <div class="large-4 medium-4 cell">
+                                    <label>Please eneter apiKey from spoonacular.com</label>
+                                    <input type="text" placeholder="Please enter key here" id="apikeyReceipy" />
+                                </div>
+                                <div class="large-4 medium-4 cell">
+                                    <label>Return records amount (1..100) </label>
+                                    <input type="number" min="1" max="100" value="10" id="returnN"
+                                        placeholder="for example: coconut" />
                                 </div>
                                 <div class="large-4 medium-4 cell">
                                     <label>Let me see what I can find for you</label>
                                     <button class="button" type="Submit">Submit </button>
+                                </div>
+                            </div>
+                            <input type="checkbox" id="secretpan" name="check1">
+                            <label for="secretpan"> Reveal secret ingridient</label><br>
+                            <div class="grid-x grid-padding-x" id="panSecret" style="opacity: 0;">
+                                <div class="large-8 medium-8 cell">
+                                    <label>Please eneter apiKey from YouTube</label>
+                                    <input type="text" placeholder="Please enter key here" id="apikeyYouTube" />
+                                </div>
+                                <div class="large-4 medium-4 cell">
+                                    <label>Skip records (0..900)</label>
+                                    <input type="number" min="0" max="900" id="skipN" value="0" />
                                 </div>
                             </div>
                         </form>

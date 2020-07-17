@@ -327,6 +327,16 @@ function recepiesSearch(url) {
     alertCall("Errors!!! receipies Search " + error.status);
   });
 }
+
+$("input#secretpan").change(function(){
+
+  if ($("#panSecret").css("opacity")==='0'){
+    $("#panSecret").css("opacity", "1");
+  }else{
+    $("#panSecret").css("opacity", "0");
+  }
+})
+
 $('#receipiesForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
@@ -421,7 +431,7 @@ function videoSearch(key, maxRes, search) {
   });
 }
 
-  // videoSearch("AIzaSyCZKj_F4Qqpe0V2kyTI7Tr9h9nYTD6f1nM", 10, "pasta+cooking");
+  // videoSearch("", 10, "pasta+cooking");
 
 // controlling "go to top button"
 $(window).scroll(function(){
