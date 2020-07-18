@@ -1,5 +1,6 @@
 
 $(document).foundation()
+// define global variables
 var x = $("#location_input");
 var lat, lon, milesRadius, cusineChoice, photoRef, userLat, userLon;
 var apiKey = "";
@@ -12,7 +13,6 @@ var youtubeQ = "";
 var video_detail = {};
 
 $("#location_input").change(function () {
-  // alert("The text has been changed.");
   weatherApiLocation($("#location_input").val())
 });
 
@@ -29,7 +29,7 @@ function weatherApiLocation(city) {
       lon = response.city.coord.lon;
     });
 };
-
+// handle the location search(latitude,longitude) by calling Ajax on geolocation-db
 function getLocation() {
   $.ajax({
     url: "https://geolocation-db.com/jsonp",
@@ -42,7 +42,7 @@ function getLocation() {
     }
   });
 }
-
+// handles calls to alert of any sort by displaying the modal
 function alertCall(textAlert) {
   $("#alertText").text(textAlert);
   $('#alertModal').foundation('open');
@@ -69,12 +69,12 @@ $('#openRecipeAccButton').click(function () {
   }, 2000);
 });
 
-
+// hadles the Prompt-like requests
 function inputdata(textAlert) {
   $("#alertText1").text(textAlert);
   $('#inputModal').foundation('open');
 }
-
+// getting data for the restaurants search
 function restaurantSearch() {
   var params = {};
   params.target = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius * 1600}&type=restaurant&keyword=${cusineChoice}&key=${apiKey}`;
@@ -84,34 +84,28 @@ function restaurantSearch() {
   }).then(function (response) {
     // Creates cards for search results
     drawRestaurants(response);
-    findImg();
   });
 }
-
+// getting the image for the restaurant by reference number
 function findImg(imgRef, n) {
   var params = {};
   var imghold = "";
-  // var links = [restaurants.results.length];
-  // imgRef = restaurants.results[n].photos[0].photo_reference;
-  // rest_details
   params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
   $.ajax({
     url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
     method: 'GET'
   }).then(function (response) {
-    // Creates cards for search results
     imghold = response.slice(response.search("HREF") + 6);
     imghold = imghold.slice(0, imghold.search(">") - 1);
-
+// heavy duty string cutting to get to the link to the image
     $("#img" + n).attr("src", imghold);
   });
   // do not remove it takes time let her think
   new Promise(resolve => setTimeout(resolve, 3000));
 }
-
+// calling details for specific restaurant and adding them to the card
 function findDetails(n) {
   var params = {};
-  // var imghold = "";
   var restID = restaurants.results[n].place_id;
   params.target = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${restID}&key=${apiKey}`;
   $.ajax({
@@ -129,7 +123,7 @@ function findDetails(n) {
     }
   });
 }
-
+// drawing the restaurant card at first stage without too many details
 function drawRestaurants(res) {
   var imgRef = '';
   var linkRef = '';
@@ -146,6 +140,7 @@ function drawRestaurants(res) {
       var restaurantIcon = "./assets/images/burgerplaceholder.jpg"
       var cardImage = $(`<img id='img${i}' src='${restaurantIcon}' style='max-height: 250px' alt='restaurant Icon'>`);
       findImg(restaurants.results[i].photos[0].photo_reference, i);
+      // it call for image only if there is one
     }
     else {
       var cardImage = $(`<img src='./assets/images/burgerplaceholder.jpg' style='max-height: 250px' alt='NO restaurant Icon'>`);
@@ -225,7 +220,9 @@ function drawRestaurants(res) {
   }
 
 };
-
+//  calls spoonacular endpoints for ingredients and analysed 
+// instruction put both calls display in modal 
+// also puts image of the dish into the background
 function dishClick(n) {
   var dishId = $("#dish_" + n).attr("value");
   $("#ReceipyTitle").text(data.results[n].title)
@@ -266,7 +263,7 @@ function dishClick(n) {
   })
   $('#ReceipyModal').foundation('open');
 };
-
+// subfunction of the function dishClick(n) that arrange ingredients into readable form
 function DrawIngredients() {
   var listIng = "";
   for (var i = 0; i < dataReceipy.ingredients.length; i++) {
@@ -274,7 +271,7 @@ function DrawIngredients() {
   }
   return listIng;
 }
-
+// calles for recepies and display them in the list
 function recepiesSearch(url) {
   $.ajax({
     url: url,
@@ -299,7 +296,7 @@ function recepiesSearch(url) {
     alertCall("Errors!!! receipies Search " + error.status);
   });
 }
-
+// makes some input visible or turn them off
 $("input#secretpan").change(function () {
   if ($("#panSecret").css("opacity") === '0') {
     $("#panSecret").css("opacity", "1");
@@ -307,7 +304,7 @@ $("input#secretpan").change(function () {
     $("#panSecret").css("opacity", "0");
   }
 })
-
+// clear the form from previous searches settings
 $("#clear2").click(function(){
  $("#selType").val("");
  $("#cusineChoice2").val("");
@@ -318,14 +315,15 @@ $("#clear2").click(function(){
  $("#returnN").val("10");
  $("#skipN").val("0");
 });
-
+// on submission of the recipe validate input and writes apropriate url for 
+// AJAX requests for recipes search and Youtube search and send them to designated function
 $('#receipiesForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
   var foodName = $("#dishesChoice2").val();
   apiKeyReceipy = $("#apikeyReceipy").val();
   if (apiKeyReceipy === "") {
-    alertCall("Please enter api Key! Can't go without it");
+    alertCall("Please enter spoonacular api Key! Can't go without it");
     return;
   }
   youtubeQ = "";
@@ -371,6 +369,7 @@ $('#receipiesForm').submit(function (event) {
   }, 2000);
 });
 
+// validate form submission from restaurant form and send them to the restaurant search function
 $('#restaurantForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
@@ -409,7 +408,7 @@ function expandAccordion2() {
     scrollTop: $("#accord2").offset().top
   }, 2000);
 }
-
+// draws videos search results from the data received
 function videoDraw() {
   // video_detail
   var el_video = '';
@@ -421,7 +420,6 @@ function videoDraw() {
          <h4  style="align-text: center; margin-top: 2rem " value="${video_detail.items[i].id.videoId}">${i + 1}. ${video_detail.items[i].snippet.title}</h4> 
          <h6  style="align-text: left" value="${video_detail.items[i].id.videoId}"> ${video_detail.items[i].snippet.description}</h6> 
        `
-    //  <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${video_detail.items[i].snippet.thumbnails.medium.url}" alt="${video_detail.items[i].snippet.title}'s image">   
   }
   $currentEl = document.createElement('div');
   $currentEl.innerHTML = el_video + "</div>";
@@ -429,7 +427,7 @@ function videoDraw() {
   $("#videosTab").append($currentEl);
 
 }
-
+//  perform search request for video and call drawing function
 function videoSearch(link) {
   var params = {};
   params.target = link;
