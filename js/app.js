@@ -1,4 +1,4 @@
-// Foundation.Abide.defaults.patterns['API-pattern'] = /^[0-9A-Za-z-\\.@:%_\+~#=]+$/;
+
 $(document).foundation()
 var x = $("#location_input");
 var lat, lon, milesRadius, cusineChoice, photoRef, userLat, userLon;
@@ -10,6 +10,7 @@ var dataReceipy = {};
 var rest_details = [];
 var youtubeQ = "";
 var video_detail = {};
+
 $("#location_input").change(function () {
   // alert("The text has been changed.");
   weatherApiLocation($("#location_input").val())
@@ -22,16 +23,12 @@ function weatherApiLocation(city) {
     method: "GET"
   })
     .then(function (response) {
-      // console.log(response);
       userLat = response.city.coord.lat;
       userlon = response.city.coord.lon;
       lat = response.city.coord.lat;
       lon = response.city.coord.lon;
-      console.log(userLat);
-      console.log(userlon);
     });
 };
-
 
 function getLocation() {
   $.ajax({
@@ -45,6 +42,7 @@ function getLocation() {
     }
   });
 }
+
 function alertCall(textAlert) {
   $("#alertText").text(textAlert);
   $('#alertModal').foundation('open');
@@ -59,7 +57,6 @@ $('#modalForm').submit(function (event) {
     apiKey = textinput;
   }
 });
-
 
 $('#openRecipeAccButton').click(function () {
   $('#accordion3').addClass('is-active');
@@ -92,7 +89,6 @@ function restaurantSearch() {
 }
 
 function findImg(n) {
-
   var params = {};
   var imghold = "";
   var links = [restaurants.results.length];
@@ -105,30 +101,21 @@ function findImg(n) {
     // Creates cards for search results
     imghold = response.slice(response.search("HREF") + 6);
     imghold = imghold.slice(0, imghold.search(">") - 1);
-    // alertCall(imghold);
     $("#img" + n).attr("src", imghold);
   });
+  // do not remove it takes time let her think
   new Promise(resolve => setTimeout(resolve, 3000));
-  // alertCall("wait")
-  // while (linkRef===""){
-  //   new Promise(resolve => setTimeout(resolve, 3000));
-  // }
-
-
 }
 
 function findDetails(n) {
-
   var params = {};
   // var imghold = "";
   var restID = restaurants.results[n].place_id;
-
   params.target = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${restID}&key=${apiKey}`;
   $.ajax({
     url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
     method: 'GET'
   }).then(function (response) {
-    // console.log(response);
     rest_details[n] = JSON.parse(response);
     $("#locate" + n).html("");
     $("#locate" + n).text("Location: " + rest_details[n].result.formatted_address);
@@ -141,28 +128,17 @@ function findDetails(n) {
   });
 }
 
-
-
-
-
-
 function drawRestaurants(res) {
   var imgRef = '';
   var linkRef = '';
   restaurants = JSON.parse(res);
-
-
   for (var i = 0; i < restaurants.results.length; i++) {
-    // console.log(restaurants.results[i]);
     var restaurantlocation = restaurants.results[i].vicinity;
     var restaurantLat = restaurants.results[i].geometry.location.lat;
     var restaurantLon = restaurants.results[i].geometry.location.lng;
-    console.log(restaurantLat);
-    console.log(restaurantLon);
     var restaurantRating = restaurants.results[i].rating;
     var restaurantName = restaurants.results[i].name;
     var starRating;
-
     if (restaurants.results[i]['photos']) {
       var restaurantIcon = "./assets/images/burgerplaceholder.jpg"
       var cardImage = $(`<img id='img${i}' src='${restaurantIcon}' style='max-height: 250px' alt='restaurant Icon'>`);
@@ -171,7 +147,6 @@ function drawRestaurants(res) {
     else {
       var cardImage = $(`<img src='./assets/images/burgerplaceholder.jpg' style='max-height: 250px' alt='NO restaurant Icon'>`);
     }
-
     if (restaurants.results[i]['opening_hours']) {
       if (restaurants.results[i].opening_hours['open_now']) {
         var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
@@ -183,7 +158,6 @@ function drawRestaurants(res) {
     else {
       var openConfirm = $(`<p style='color: yellow;'>No Info</p>`);
     }
-
     if (restaurantRating < 1.5) {
       starRating = "./assets/images/1star.png"
     }
@@ -211,11 +185,9 @@ function drawRestaurants(res) {
     if (restaurantRating >= 5) {
       starRating = "./assets/images/5star.png"
     }
-
     var priceLevel;
     priceLevel = restaurants.results[i].price_level;
     var priceSymbol;
-
     for (var x = 0; x <= priceLevel; x++) {
       priceSymbol = "$";
       priceSymbol = priceSymbol.repeat(x);
@@ -231,7 +203,6 @@ function drawRestaurants(res) {
     var cardSectionlocation = $(`<p id = "locate${i}"> Location: ${restaurantlocation}</p>`);
     var cardSectiontel = $(`<p id = "telephone${i}" ></p>`);
     var cardSectionweb = $(`<p id = "website${i}" ></p>`);
-
     $(restaurantCard).append(cardHeader);
     $(restaurantCard).append(cardImage);
     $(restaurantCard).append(cardTextSection);
@@ -289,7 +260,6 @@ function dishClick(n) {
         listIng += dataReceipy.ingredients[i].name + " " + dataReceipy.ingredients[i].amount.us.value + dataReceipy.ingredients[i].amount.us.unit + "<br>";
       }
       $("#ingredientsList").html(listIng);
-
     },
   }).catch(function (error) {
     alertCall("Errors!!! in Receipy ingredientsWidget " + error.status);
@@ -312,6 +282,7 @@ function dishClick(n) {
   })
   $('#ReceipyModal').foundation('open');
 };
+
 function DrawIngredients() {
   var listIng = "";
   for (var i = 0; i < dataReceipy.ingredients.length; i++) {
@@ -319,6 +290,7 @@ function DrawIngredients() {
   }
   return listIng;
 }
+
 function recepiesSearch(url) {
   $.ajax({
     url: url,
@@ -328,14 +300,12 @@ function recepiesSearch(url) {
     var el = `<div class="grid-x grid-padding-x">`;
     for (var i = 0; i < data.results.length; i++) {
       el +=
-        ` 
-       <div  class="large-6 medium-6 cell" >
-        <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${data.results[i].image}" alt="${data.results[i].title}'s image">
-       </div>
-       <div  class="large-6 medium-6 cell recipeName"  >
-         <h4 id="dish_${i}" onClick="dishClick(${i})" style="align-text: center; margin-top: 2rem " value="${data.results[i].id}">${i + 1}. ${data.results[i].title}</h4> 
-       </div>
-       `
+       `<div  class="large-6 medium-6 cell" >
+          <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${data.results[i].image}" alt="${data.results[i].title}'s image">
+        </div>
+        <div  class="large-6 medium-6 cell recipeName"  >
+          <h4 id="dish_${i}" onClick="dishClick(${i})" style="align-text: center; margin-top: 2rem " value="${data.results[i].id}">${i + 1}. ${data.results[i].title}</h4> 
+        </div>`
     }
     $currentEl = document.createElement('div');
     $currentEl.innerHTML = el + "</div>";
@@ -418,10 +388,6 @@ $('#receipiesForm').submit(function (event) {
   }, 2000);
 });
 
-
-
-
-
 $('#restaurantForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
@@ -446,8 +412,6 @@ $('#restaurantForm').submit(function (event) {
     return;
   }
   restaurantSearch();
-  // alertCall("pass!");
-  // console.log(restaurants);
   expandAccordion2();
 
 });
@@ -470,13 +434,10 @@ function videoSearch(link) {
     url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
     method: 'GET'
   }).then(function (response) {
-    // Creates cards for search results
-    console.log(response)
     video_detail = JSON.parse(response);
     videoDraw();
   });
 }
-
 
 // controlling "go to top button"
 $(window).scroll(function () {
@@ -489,6 +450,5 @@ $(window).scroll(function () {
 });
 
 function topFunction() {
-  // console.log("YOU DID IT");
   $(window).scrollTop(0);
 };
