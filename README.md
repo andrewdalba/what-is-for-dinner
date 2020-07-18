@@ -78,3 +78,22 @@ AJAX for Recipes
  https://andrewdalba.github.io/what-is-for-dinner/ 
 
  https://github.com/andrewdalba/what-is-for-dinner
+
+ ## pitures demo
+ overall gif presentation
+![what is for dinner demo](/assets/images/gif-presentation.gif)
+details:
+ 1. first form picture
+![what is for dinner demo](/assets/images/1firstform.png)
+ 2. restaurant search results
+![what is for dinner demo](/assets/images/2-restaurant-search-results.png)
+ 3. second form picture
+![what is for dinner demo](/assets/images/3-second-form.png)
+ 4. results of search for specific dish
+![what is for dinner demo](/assets/images/4-dish-search-results.png)
+ 5. detailed look of the recipe
+![what is for dinner demo](/assets/images/5-details-on-recipe.png)
+ 6. few shots of the app on cell phone 
+![what is for dinner demo](/assets/images/6-responsive-shots.jpg)
+1.responsive shots on phone and IPad
+![what is for dinner demo](/assets/images/7-responsive-shots-IPad.jpg)
