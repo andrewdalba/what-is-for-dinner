@@ -39,7 +39,7 @@
                     <form id="restaurantForm">
                         <div class="grid-x grid-padding-x">
                             <div class="large-8 cell">
-                                <label>Please let me know your favorite cusines (separate them with comma)</label>
+                                <label>Please list your favorite cusines (separate them by comma)</label>
                                 <input type="text" id="cusineChoice" placeholder="Can't leave it blank" />
                             </div>
                             <div class="large-4 cell">
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                             <div class="large-4 medium-4 cell">
-                                <label>How far you looking? (Miles)</label>
+                                <label>How far are you looking? (in miles)</label>
                                 <input type="number" min="1" max="50" id="milesRadius" value="5" required
                                     pattern="number" placeholder="in miles" />
                             </div>
@@ -72,7 +72,7 @@
 
                             <!-- adding other button -->
                             <div class="large-3 medium-4 cell">
-                                <p>Don't want restaurants?</p>
+                                <p>Don't want restaurant food?</p>
                                 <label>Search for Recipes</label>
                                 <button class="button small secondary" id="openRecipeAccButton" type="button">Click
                                     Here</button>
@@ -104,10 +104,9 @@
                 <div class="accordion-content" id="testing2" data-tab-content>
                     <div class="callout" style="background: linear-gradient( #9198e5,#6fe664); margin:0 ">
                         <div class="title">
-                            <h2 id="accord3">Great! let's cook at home! It is better and safer this way </h2>
+                            <h2 id="accord3">Great! Let's cook at home! It's better and safer this way. </h2>
                         </div>
                         <form id="receipiesForm">
-
                             <div class="grid-x grid-padding-x">
                                 <div class="large-4 cell">
                                     <label>Any preference with dishes or cocktails?</label>
@@ -175,7 +174,7 @@
                                     </div>
                                 </div>
                                 <div class="large-4 medium-4 cell">
-                                    <label>Intolerance</label>
+                                    <label>Allergies</label>
                                     <select id="outChoice" multiple>
                                         <option value="Dairy">Dairy</option>
                                         <option value="Egg">Egg</option>
@@ -198,11 +197,11 @@
                             </div>
                             <div class="grid-x grid-padding-x">
                                 <div class="large-4 medium-4 cell">
-                                    <label>Please eneter apiKey from spoonacular.com</label>
+                                    <label>Please enter apiKey from spoonacular.com</label>
                                     <input type="text" placeholder="Please enter key here" id="apikeyReceipy" />
                                 </div>
                                 <div class="large-4 medium-4 cell">
-                                    <label>Return records amount (1..100) </label>
+                                    <label>Return number of results (1..100) </label>
                                     <input type="number" min="1" max="100" value="10" id="returnN"
                                         placeholder="for example: coconut" />
                                 </div>
@@ -216,7 +215,7 @@
                             <label for="secretpan"> Reveal secret ingridient</label><br>
                             <div class="grid-x grid-padding-x" id="panSecret" style="opacity: 0;">
                                 <div class="large-8 medium-8 cell">
-                                    <label>Please eneter apiKey from YouTube</label>
+                                    <label>Please enter apiKey from YouTube</label>
                                     <input type="text" placeholder="Please enter key here" id="apikeyYouTube" />
                                 </div>
                                 <div class="large-4 medium-4 cell">

@@ -38,13 +38,6 @@
 	letter-spacing: 1px;
 }
 
-/* quick
- https://media.giphy.com/media/rlUh6GM9rQk7e/giphy.gif
- smoke
- https://media.giphy.com/media/26BROrSHlmyzzHf3i/giphy.gif
- cooking
- https://media.giphy.com/media/ZWTynDYLNFTQA/giphy.gif
- https://media.giphy.com/media/3oEjHC7al4GfnudR7y/giphy.gif*/
 h1 {
   
 	background-image: url(https://media.giphy.com/media/3oEjHC7al4GfnudR7y/giphy.gif);
@@ -56,6 +49,7 @@ h1 {
 	font-size: 90px;
 	line-height: .75;
 	margin: 10px 0;
+	
 }
 #accord2 {
 	background-image: url(https://media.giphy.com/media/QvkquwedbsAUN12K9A/giphy.gif);

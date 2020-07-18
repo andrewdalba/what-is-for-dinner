@@ -88,11 +88,12 @@ function restaurantSearch() {
   });
 }
 
-function findImg(n) {
+function findImg(imgRef, n) {
   var params = {};
   var imghold = "";
-  var links = [restaurants.results.length];
-  imgRef = restaurants.results[n].photos[0].photo_reference;
+  // var links = [restaurants.results.length];
+  // imgRef = restaurants.results[n].photos[0].photo_reference;
+  // rest_details
   params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
   $.ajax({
     url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
@@ -101,6 +102,7 @@ function findImg(n) {
     // Creates cards for search results
     imghold = response.slice(response.search("HREF") + 6);
     imghold = imghold.slice(0, imghold.search(">") - 1);
+
     $("#img" + n).attr("src", imghold);
   });
   // do not remove it takes time let her think
@@ -132,6 +134,7 @@ function drawRestaurants(res) {
   var imgRef = '';
   var linkRef = '';
   restaurants = JSON.parse(res);
+  $("#restaurantList").html("");
   for (var i = 0; i < restaurants.results.length; i++) {
     var restaurantlocation = restaurants.results[i].vicinity;
     var restaurantLat = restaurants.results[i].geometry.location.lat;
@@ -142,7 +145,7 @@ function drawRestaurants(res) {
     if (restaurants.results[i]['photos']) {
       var restaurantIcon = "./assets/images/burgerplaceholder.jpg"
       var cardImage = $(`<img id='img${i}' src='${restaurantIcon}' style='max-height: 250px' alt='restaurant Icon'>`);
-      findImg(i);
+      findImg(restaurants.results[i].photos[0].photo_reference, i);
     }
     else {
       var cardImage = $(`<img src='./assets/images/burgerplaceholder.jpg' style='max-height: 250px' alt='NO restaurant Icon'>`);
@@ -222,25 +225,6 @@ function drawRestaurants(res) {
   }
 
 };
-function videoDraw() {
-  // video_detail
-  var el_video = '';
-  for (var i = 0; i < video_detail.items.length; i++) {
-    el_video +=
-      ` 
-       <iframe width="420" height="315" src="https://www.youtube.com/embed/${video_detail.items[i].id.videoId}?controls=0"></iframe>
- 
-         <h4  style="align-text: center; margin-top: 2rem " value="${video_detail.items[i].id.videoId}">${i + 1}. ${video_detail.items[i].snippet.title}</h4> 
-         <h6  style="align-text: left" value="${video_detail.items[i].id.videoId}"> ${video_detail.items[i].snippet.description}</h6> 
-       `
-    //  <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${video_detail.items[i].snippet.thumbnails.medium.url}" alt="${video_detail.items[i].snippet.title}'s image">   
-  }
-  $currentEl = document.createElement('div');
-  $currentEl.innerHTML = el_video + "</div>";
-  $("#videosTab").empty();
-  $("#videosTab").append($currentEl);
-
-}
 
 function dishClick(n) {
   var dishId = $("#dish_" + n).attr("value");
@@ -317,15 +301,14 @@ function recepiesSearch(url) {
 }
 
 $("input#secretpan").change(function () {
-
   if ($("#panSecret").css("opacity") === '0') {
     $("#panSecret").css("opacity", "1");
   } else {
     $("#panSecret").css("opacity", "0");
   }
 })
+
 $("#clear2").click(function(){
- alertCall("cleasr")
  $("#selType").val("");
  $("#cusineChoice2").val("");
  $("#dietChoice").val("");
@@ -425,6 +408,26 @@ function expandAccordion2() {
   $([document.documentElement, document.body]).animate({
     scrollTop: $("#accord2").offset().top
   }, 2000);
+}
+
+function videoDraw() {
+  // video_detail
+  var el_video = '';
+  for (var i = 0; i < video_detail.items.length; i++) {
+    el_video +=
+      ` 
+        <iframe width="420" height="315" src="https://www.youtube.com/embed/${video_detail.items[i].id.videoId}?controls=0"></iframe>
+ 
+         <h4  style="align-text: center; margin-top: 2rem " value="${video_detail.items[i].id.videoId}">${i + 1}. ${video_detail.items[i].snippet.title}</h4> 
+         <h6  style="align-text: left" value="${video_detail.items[i].id.videoId}"> ${video_detail.items[i].snippet.description}</h6> 
+       `
+    //  <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${video_detail.items[i].snippet.thumbnails.medium.url}" alt="${video_detail.items[i].snippet.title}'s image">   
+  }
+  $currentEl = document.createElement('div');
+  $currentEl.innerHTML = el_video + "</div>";
+  $("#videosTab").empty();
+  $("#videosTab").append($currentEl);
+
 }
 
 function videoSearch(link) {
