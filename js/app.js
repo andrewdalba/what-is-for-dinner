@@ -220,8 +220,6 @@ function drawRestaurants(res) {
       priceSymbol = "$";
       priceSymbol = priceSymbol.repeat(x);
     }
-
-
     var restaurantCell = $("<div class='cell'>")
     var restaurantCard = $("<div class='card'>");
     var cardHeader = $(`<div class='card-divider' value='${restaurants.results[i].id}'>${restaurantName}</div>`);
@@ -356,6 +354,17 @@ $("input#secretpan").change(function () {
     $("#panSecret").css("opacity", "0");
   }
 })
+$("#clear2").click(function(){
+ alertCall("cleasr")
+ $("#selType").val("");
+ $("#cusineChoice2").val("");
+ $("#dietChoice").val("");
+ $("#outChoice").val("");
+ $("#excludeChoice").val("");
+ $("#dishesChoice2").val("");
+ $("#returnN").val("10");
+ $("#skipN").val("0");
+});
 
 $('#receipiesForm').submit(function (event) {
   event.preventDefault();
