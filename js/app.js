@@ -16,6 +16,7 @@ $("#location_input").change(function () {
   weatherApiLocation($("#location_input").val())
 });
 
+// Using weather API for finding latitude and longitude based on what the user enters for "location"
 function weatherApiLocation(city) {
   var queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=f2db8e1b3757f3e4e3db807ed339605e`;
   $.ajax({
@@ -125,14 +126,10 @@ function findDetails(n) {
 }
 // drawing the restaurant card at first stage without too many details
 function drawRestaurants(res) {
-  var imgRef = '';
-  var linkRef = '';
   restaurants = JSON.parse(res);
   $("#restaurantList").html("");
   for (var i = 0; i < restaurants.results.length; i++) {
     var restaurantlocation = restaurants.results[i].vicinity;
-    var restaurantLat = restaurants.results[i].geometry.location.lat;
-    var restaurantLon = restaurants.results[i].geometry.location.lng;
     var restaurantRating = restaurants.results[i].rating;
     var restaurantName = restaurants.results[i].name;
     var starRating;
