@@ -98,7 +98,7 @@ function findImg(imgRef, n) {
   }).then(function (response) {
     imghold = response.slice(response.search("HREF") + 6);
     imghold = imghold.slice(0, imghold.search(">") - 1);
-// heavy duty string cutting to get to the link to the image
+    // heavy duty string cutting to get to the link to the image
     $("#img" + n).attr("src", imghold);
   });
   // do not remove it takes time let her think
@@ -124,7 +124,8 @@ function findDetails(n) {
     }
   });
 }
-// drawing the restaurant card at first stage without too many details
+
+// Function that draws each restaurant card based on the search results
 function drawRestaurants(res) {
   restaurants = JSON.parse(res);
   $("#restaurantList").html("");
@@ -133,15 +134,18 @@ function drawRestaurants(res) {
     var restaurantRating = restaurants.results[i].rating;
     var restaurantName = restaurants.results[i].name;
     var starRating;
+    // calls for image only if there is one in the object
     if (restaurants.results[i]['photos']) {
       var restaurantIcon = "./assets/images/burgerplaceholder.jpg"
       var cardImage = $(`<img id='img${i}' src='${restaurantIcon}' style='max-height: 250px' alt='restaurant Icon'>`);
       findImg(restaurants.results[i].photos[0].photo_reference, i);
-      // it call for image only if there is one
+
     }
+    // if theres not an image in the object, a placeholder pic of a hamburger goes in the image tag
     else {
       var cardImage = $(`<img src='./assets/images/burgerplaceholder.jpg' style='max-height: 250px' alt='NO restaurant Icon'>`);
     }
+    // if the object has an element called "opening_hours" then it prints the info and changes the color accordingly
     if (restaurants.results[i]['opening_hours']) {
       if (restaurants.results[i].opening_hours['open_now']) {
         var openConfirm = $(`<p style='color: green;'>Open Now</p>`);
@@ -150,9 +154,12 @@ function drawRestaurants(res) {
         var openConfirm = $(`<p style='color: red;'>Closed</p>`);
       }
     }
+    // if the object does not have "opening_hours" it prints "no info"
     else {
       var openConfirm = $(`<p style='color: yellow;'>No Info</p>`);
     }
+
+    // IF statements that control the star rating image
     if (restaurantRating < 1.5) {
       starRating = "./assets/images/1star.png"
     }
@@ -180,6 +187,9 @@ function drawRestaurants(res) {
     if (restaurantRating >= 5) {
       starRating = "./assets/images/5star.png"
     }
+    // end of IF statements that control star rating image
+
+    // setting the correct amount of "$"s in the variable "price symbol"
     var priceLevel;
     priceLevel = restaurants.results[i].price_level;
     var priceSymbol;
@@ -187,6 +197,8 @@ function drawRestaurants(res) {
       priceSymbol = "$";
       priceSymbol = priceSymbol.repeat(x);
     }
+
+    // Creating HTML for each restaurant card
     var restaurantCell = $("<div class='cell'>")
     var restaurantCard = $("<div class='card'>");
     var cardHeader = $(`<div class='card-divider' value='${restaurants.results[i].id}'>${restaurantName}</div>`);
@@ -194,10 +206,10 @@ function drawRestaurants(res) {
     var cardSectionRating = $(`<p>Rating: ${restaurantRating}</p>`);
     var cardSectionStarRating = $(`<p><img src='${starRating}' alt='starRating' style='max-width: 40%;'></img></p>`);
     var cardSectionPrice = $(`<p>Price Level: ${priceSymbol}</p>`);
-    // var cardSectionlocation = $(`<p>Location: ${restaurantlocation}</p>`);
     var cardSectionlocation = $(`<p id = "locate${i}"> Location: ${restaurantlocation}</p>`);
     var cardSectiontel = $(`<p id = "telephone${i}" ></p>`);
     var cardSectionweb = $(`<p id = "website${i}" ></p>`);
+    // appending each HTML tag in the correct order
     $(restaurantCard).append(cardHeader);
     $(restaurantCard).append(cardImage);
     $(restaurantCard).append(cardTextSection);
@@ -205,15 +217,12 @@ function drawRestaurants(res) {
     $(cardTextSection).append(cardSectionStarRating);
     $(cardTextSection).append(cardSectionPrice);
     $(cardTextSection).append(cardSectionlocation);
-
     $(cardTextSection).append(cardSectiontel);
     $(cardTextSection).append(cardSectionweb);
-
     $(cardTextSection).append(openConfirm);
     $(restaurantCell).append(restaurantCard);
     $("#restaurantList").append(restaurantCell);
     findDetails(i);
-
   }
 
 };
@@ -278,7 +287,7 @@ function recepiesSearch(url) {
     var el = `<div class="grid-x grid-padding-x">`;
     for (var i = 0; i < data.results.length; i++) {
       el +=
-       `<div  class="large-6 medium-6 cell" >
+        `<div  class="large-6 medium-6 cell" >
           <img style="padding: 5px; width:100%; border-radius: 2rem; border: 1, solid, salmon"  src="${data.results[i].image}" alt="${data.results[i].title}'s image">
         </div>
         <div  class="large-6 medium-6 cell recipeName"  >
@@ -302,15 +311,15 @@ $("input#secretpan").change(function () {
   }
 })
 // clear the form from previous searches settings
-$("#clear2").click(function(){
- $("#selType").val("");
- $("#cusineChoice2").val("");
- $("#dietChoice").val("");
- $("#outChoice").val("");
- $("#excludeChoice").val("");
- $("#dishesChoice2").val("");
- $("#returnN").val("10");
- $("#skipN").val("0");
+$("#clear2").click(function () {
+  $("#selType").val("");
+  $("#cusineChoice2").val("");
+  $("#dietChoice").val("");
+  $("#outChoice").val("");
+  $("#excludeChoice").val("");
+  $("#dishesChoice2").val("");
+  $("#returnN").val("10");
+  $("#skipN").val("0");
 });
 // on submission of the recipe validate input and writes apropriate url for 
 // AJAX requests for recipes search and Youtube search and send them to designated function
@@ -395,12 +404,12 @@ $('#restaurantForm').submit(function (event) {
 
 });
 
+// This manually opens an accordion by changing attriubutes that would normally be handled by Foundation
 function expandAccordion2() {
   $('#accordion2').addClass('is-active');
   $('#accordion2-label').attr('aria-expanded', 'true');
   $('#accordion2-label').attr('aria-selected', 'true');
   $('#testing1').attr('style', 'display: block;');
-
   $([document.documentElement, document.body]).animate({
     scrollTop: $("#accord2").offset().top
   }, 2000);
@@ -447,6 +456,7 @@ $(window).scroll(function () {
   }
 });
 
+// function that handles scrolling to the topo of the page
 function topFunction() {
   $(window).scrollTop(0);
 };
