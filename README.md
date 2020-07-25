@@ -1,16 +1,6 @@
 # what-is-for-dinner
 ## description
-A helpful application to locate restaurants based on the users location and food preferences.
-
-based on the resaurants menus, the app will suggest recipes for the user to cook at home.
-
-The user also has the option of viwing videos based on the recipes
-
-the app will also give the option to view directions to markets to buy the ingredients
-
-The app will show whether or not the restaurant is open for takeout
-
-the app will show the restaurants' hours
+A helpful application to locate restaurants, find recipes, and recipe videos based on the users food preferences and location.
 
 
 ## User Story
