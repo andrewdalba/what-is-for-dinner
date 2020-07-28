@@ -1,10 +1,9 @@
-
 $(document).foundation()
 // define global variables
 var x = $("#location_input");
 var lat, lon, milesRadius, cusineChoice, photoRef, userLat, userLon;
 var apiKey = "";
-var apiKeyReceipy = "";
+var apiKeyReceipy = keys.spoonacular;
 var data = {};
 var actions = {};
 var dataReceipy = {};
@@ -327,11 +326,11 @@ $('#receipiesForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
   var foodName = $("#dishesChoice2").val();
-  apiKeyReceipy = $("#apikeyReceipy").val();
-  if (apiKeyReceipy === "") {
-    alertCall("Please enter spoonacular api Key! Can't go without it");
-    return;
-  }
+  // apiKeyReceipy = $("#apikeyReceipy").val();
+  // if (apiKeyReceipy === "") {
+  //   alertCall("Please enter spoonacular api Key! Can't go without it");
+  //   return;
+  // }
   youtubeQ = "";
   if (foodName != "") {
     youtubeQ = foodName;
