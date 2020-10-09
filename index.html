@@ -42,10 +42,7 @@
                                 <label>Please list your favorite cusines (separate them by comma)</label>
                                 <input type="text" id="cusineChoice" placeholder="Can't leave it blank" />
                             </div>
-                            <div class="large-4 cell">
-                                <label>Enter your API Key from Google</label>
-                                <input type="text" id="apiKeyChoice" placeholder="Enter cuisine of your chose." />
-                            </div>
+                           
                         </div>
                         <div class="grid-x grid-padding-x">
                             <div class="large-8 medium-8 cell">
@@ -197,8 +194,8 @@
                             </div>
                             <div class="grid-x grid-padding-x">
                                 <div class="large-4 medium-4 cell">
-                                    <label>Please enter apiKey from spoonacular.com</label>
-                                    <input type="text" placeholder="Please enter key here" id="apikeyReceipy" />
+                                    <label>Skip  first  n  records (0..900)</label>
+                                    <input type="number" min="0" max="900" id="skipN" value="0" />
                                 </div>
                                 <div class="large-4 medium-4 cell">
                                     <label>Return number of results (1..100) </label>
@@ -212,17 +209,8 @@
                                 </div>
                             </div>
                             <input type="checkbox" id="secretpan" name="check1">
-                            <label for="secretpan"> Reveal secret ingridient</label><br>
-                            <div class="grid-x grid-padding-x" id="panSecret" style="opacity: 0;">
-                                <div class="large-8 medium-8 cell">
-                                    <label>Please enter apiKey from YouTube</label>
-                                    <input type="text" placeholder="Please enter key here" id="apikeyYouTube" />
-                                </div>
-                                <div class="large-4 medium-4 cell">
-                                    <label>Skip records (0..900)</label>
-                                    <input type="number" min="0" max="900" id="skipN" value="0" />
-                                </div>
-                            </div>
+                            <label for="secretpan"> Do not show Youtube videos</label><br>
+                            
                         </form>
                     </div>
                     <div class="grid-x grid-padding-x">

@@ -78,9 +78,9 @@ function inputdata(textAlert) {
 // getting data for the restaurants search
 function restaurantSearch() {
   var params = {};
-  params.target = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius * 1600}&type=restaurant&keyword=${cusineChoice}&key=${apiKey}`;
+  params.target = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius * 1600}&type=restaurant&keyword=${cusineChoice}&key=`;
   $.ajax({
-    url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
     // Creates cards for search results
@@ -91,12 +91,13 @@ function restaurantSearch() {
 function findImg(imgRef, n) {
   var params = {};
   var imghold = "";
-  params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=${apiKey}`;
+  params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=`;
   $.ajax({
-    url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
-    imghold = response.slice(response.search("HREF") + 6);
+    // console.log(response);
+    imghold = response.slice(response.search("img") + 6);
     imghold = imghold.slice(0, imghold.search(">") - 1);
     // heavy duty string cutting to get to the link to the image
     $("#img" + n).attr("src", imghold);
@@ -108,12 +109,12 @@ function findImg(imgRef, n) {
 function findDetails(n) {
   var params = {};
   var restID = restaurants.results[n].place_id;
-  params.target = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${restID}&key=${apiKey}`;
+  params.target = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${restID}&key=`;
   $.ajax({
-    url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
-    rest_details[n] = JSON.parse(response);
+    rest_details[n] = response;
     $("#locate" + n).html("");
     $("#locate" + n).text("Location: " + rest_details[n].result.formatted_address);
     $("#telephone" + n).text("tel: " + rest_details[n].result.formatted_phone_number);
@@ -127,7 +128,9 @@ function findDetails(n) {
 
 // Function that draws each restaurant card based on the search results
 function drawRestaurants(res) {
-  restaurants = JSON.parse(res);
+  console.log(res)
+  // restaurants = JSON.parse(res);
+  restaurants = res;
   $("#restaurantList").html("");
   for (var i = 0; i < restaurants.results.length; i++) {
     var restaurantlocation = restaurants.results[i].vicinity;
@@ -232,38 +235,35 @@ function drawRestaurants(res) {
 function dishClick(n) {
   var dishId = $("#dish_" + n).attr("value");
   $("#ReceipyTitle").text(data.results[n].title)
-  $('#ReceipyModal').css("background-image", "url(" + data.results[n].image + ")")
-  var ingredientURL = `https://api.spoonacular.com/recipes/${dishId}/ingredientWidget.json?apiKey=${apiKeyReceipy}`;
+  $('#ReceipyModal').css("background-image", "url(" + data.results[n].image + ")");
+  var ingredientURL = "https://boiling-badlands-26235.herokuapp.com/proxy/api/key/1/" + dishId;
+  console.log(ingredientURL);
   $.ajax({
     url: ingredientURL,
-    method: "GET",
-    contentType: "application/json; charset=utf-8",
-    dataType: 'json',
-    data: JSON.stringify(data),
-    success: function (data) {
-      dataReceipy = data;
-      var listIng = "";
-      for (var i = 0; i < dataReceipy.ingredients.length; i++) {
-        listIng += dataReceipy.ingredients[i].name + " " + dataReceipy.ingredients[i].amount.us.value + dataReceipy.ingredients[i].amount.us.unit + "<br>";
-      }
-      $("#ingredientsList").html(listIng);
-    },
+    method: "GET"
+  }).then(function (data) {
+    dataReceipy = data;
+    var listIng = "";
+    for (var i = 0; i < dataReceipy.ingredients.length; i++) {
+      listIng += dataReceipy.ingredients[i].name + " " + dataReceipy.ingredients[i].amount.us.value + dataReceipy.ingredients[i].amount.us.unit + "<br>";
+    }
+    $("#ingredientsList").html(listIng);
   }).catch(function (error) {
     alertCall("Errors!!! in Receipy ingredientsWidget " + error.status);
   });
-  ingredientURL = `https://api.spoonacular.com/recipes/${dishId}/analyzedInstructions?apiKey=${apiKeyReceipy}`;
+  ingredientURL = "https://boiling-badlands-26235.herokuapp.com/proxy/api/key/2/" + dishId;
+  console.log(ingredientURL);
   $.ajax({
     url: ingredientURL,
     method: "GET",
-    contentType: "application/json",
-    success: function (data1) {
-      actions = data1;
-      var listActions = "";
-      for (var i = 0; i < actions[0].steps.length; i++) {
-        listActions += (i + 1) + ". " + actions[0].steps[i].step + "<br>";
-      }
-      $("#orderList").html(listActions);
+  }).then(function (data1) {
+    actions = data1;
+    var listActions = "";
+    for (var i = 0; i < actions[0].steps.length; i++) {
+      listActions += (i + 1) + ". " + actions[0].steps[i].step + "<br>";
     }
+    $("#orderList").html(listActions);
+
   }).catch(function (error) {
     alertCall("Errors!!! in Receipy Analyzed Instructions " + error.status);
   })
@@ -280,7 +280,7 @@ function DrawIngredients() {
 // calles for recepies and display them in the list
 function recepiesSearch(url) {
   $.ajax({
-    url: url,
+    url: "https://boiling-badlands-26235.herokuapp.com/proxy/api/key/0/" + url,
     method: "GET",
   }).then(function (data1) {
     data = data1;
@@ -303,13 +303,13 @@ function recepiesSearch(url) {
   });
 }
 // makes some input visible or turn them off
-$("input#secretpan").change(function () {
-  if ($("#panSecret").css("opacity") === '0') {
-    $("#panSecret").css("opacity", "1");
-  } else {
-    $("#panSecret").css("opacity", "0");
-  }
-})
+// $("input#secretpan").change(function () {
+//   if ($("#panSecret").css("opacity") === '0') {
+//     $("#panSecret").css("opacity", "1");
+//   } else {
+//     $("#panSecret").css("opacity", "0");
+//   }
+// })
 // clear the form from previous searches settings
 $("#clear2").click(function () {
   $("#selType").val("");
@@ -327,16 +327,17 @@ $('#receipiesForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
   var foodName = $("#dishesChoice2").val();
-  apiKeyReceipy = $("#apikeyReceipy").val();
-  if (apiKeyReceipy === "") {
-    alertCall("Please enter spoonacular api Key! Can't go without it");
-    return;
-  }
+  // apiKeyReceipy = $("#apikeyReceipy").val();
+  // if (apiKeyReceipy === "") {
+  //   alertCall("Please enter spoonacular api Key! Can't go without it");
+  //   return;
+  // }
   youtubeQ = "";
   if (foodName != "") {
     youtubeQ = foodName;
   }
-  var receipiesURL = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + apiKeyReceipy;
+
+  var receipiesURL = "";
   if ($("#selType").val() != "") {
     receipiesURL += "&type=" + $("#selType").val();
   }
@@ -363,11 +364,14 @@ $('#receipiesForm').submit(function (event) {
   }
   receipiesURL += "&query=" + foodName;
   recepiesSearch(receipiesURL);
-  if ($("#apikeyYouTube").val() != "") {
-    youtubeQ = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=${$("#returnN").val()}&q=${youtubeQ}&key=${$("#apikeyYouTube").val()}`
+
+
+  // if ($("#apikeyYouTube").val() != "") {
+  if ($("#secretpan").prop("checked") == false) {
+    youtubeQ = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=${$("#returnN").val()}&q=${youtubeQ}&key=`
     videoSearch(youtubeQ)
   } else {
-    alertCall("You need youtube APIkey to get steaming Videos")
+    alertCall("To add youtube videos un-check checkbox")
     youtubeQ = "";
   }
   $([document.documentElement, document.body]).animate({
@@ -383,11 +387,7 @@ $('#restaurantForm').submit(function (event) {
   cusineChoice = $("#cusineChoice").val();
   milesRadius = $("#milesRadius").val();
   var dishesChoice = $("#dishesChoice").val();
-  apiKey = $("#apiKeyChoice").val();
-  if (!apiKey) {
-    alertCall("Please enter API key! It is required!");
-    return;
-  }
+ 
   if (!lat) {
     getLocation();
   }
@@ -438,10 +438,10 @@ function videoSearch(link) {
   var params = {};
   params.target = link;
   $.ajax({
-    url: 'https://greve-chaise-90856.herokuapp.com/proxy/api/v1?' + $.param(params),
+    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
-    video_detail = JSON.parse(response);
+    video_detail = response;
     videoDraw();
   });
 }
