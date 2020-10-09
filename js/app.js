@@ -79,7 +79,7 @@ function restaurantSearch() {
   var params = {};
   params.target = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius * 1600}&type=restaurant&keyword=${cusineChoice}&key=`;
   $.ajax({
-    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/v1' + $.param(params),
+    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/0/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
     // Creates cards for search results
@@ -91,15 +91,13 @@ function findImg(imgRef, n) {
   var params = {};
   var imghold = "";
   params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=`;
+ 
   $.ajax({
-    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/v1' + $.param(params),
+    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/1/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
-    // console.log(response);
-    imghold = response.slice(response.search("img") + 6);
-    imghold = imghold.slice(0, imghold.search(">") - 1);
     // heavy duty string cutting to get to the link to the image
-    $("#img" + n).attr("src", imghold);
+    $("#img" + n).attr("src", response);
   });
   // do not remove it takes time let her think
   new Promise(resolve => setTimeout(resolve, 3000));
@@ -110,7 +108,7 @@ function findDetails(n) {
   var restID = restaurants.results[n].place_id;
   params.target = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${restID}&key=`;
   $.ajax({
-    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/v1' + $.param(params),
+    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/0/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
     rest_details[n] = response;
@@ -301,14 +299,6 @@ function recepiesSearch(url) {
     alertCall("Errors!!! receipies Search " + error.status);
   });
 }
-// makes some input visible or turn them off
-// $("input#secretpan").change(function () {
-//   if ($("#panSecret").css("opacity") === '0') {
-//     $("#panSecret").css("opacity", "1");
-//   } else {
-//     $("#panSecret").css("opacity", "0");
-//   }
-// })
 // clear the form from previous searches settings
 $("#clear2").click(function () {
   $("#selType").val("");
@@ -326,11 +316,6 @@ $('#receipiesForm').submit(function (event) {
   event.preventDefault();
   // validate input before proceed
   var foodName = $("#dishesChoice2").val();
-  // apiKeyReceipy = $("#apikeyReceipy").val();
-  // if (apiKeyReceipy === "") {
-  //   alertCall("Please enter spoonacular api Key! Can't go without it");
-  //   return;
-  // }
   youtubeQ = "";
   if (foodName != "") {
     youtubeQ = foodName;
@@ -437,7 +422,7 @@ function videoSearch(link) {
   var params = {};
   params.target = link;
   $.ajax({
-    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/v1' + $.param(params),
+    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/0/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
     video_detail = response;
