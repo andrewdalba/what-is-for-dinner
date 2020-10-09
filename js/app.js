@@ -1,4 +1,3 @@
-
 $(document).foundation()
 // define global variables
 var x = $("#location_input");
