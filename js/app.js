@@ -91,7 +91,7 @@ function findImg(imgRef, n) {
   var params = {};
   var imghold = "";
   params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=`;
- 
+  // url: 'https://localhost:3000/proxy/api/1/v1' + $.param(params),
   $.ajax({
     url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/1/v1' + $.param(params),
     method: 'GET'
