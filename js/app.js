@@ -10,6 +10,7 @@ var dataReceipy = {};
 var rest_details = [];
 var youtubeQ = "";
 var video_detail = {};
+var proxySite= 'https://pwa-budget-tracker.onrender.com';
 
 $("#location_input").change(function () {
   weatherApiLocation($("#location_input").val())
@@ -79,7 +80,7 @@ function restaurantSearch() {
   var params = {};
   params.target = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=${milesRadius * 1600}&type=restaurant&keyword=${cusineChoice}&key=`;
   $.ajax({
-    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/0/v1' + $.param(params),
+    url: proxySite +'/proxy/api/0/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
     // Creates cards for search results
@@ -93,7 +94,7 @@ function findImg(imgRef, n) {
   params.target = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${imgRef}&key=`;
   // url: 'https://localhost:3000/proxy/api/1/v1' + $.param(params),
   $.ajax({
-    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/1/v1' + $.param(params),
+    url: proxySite +'/proxy/api/1/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
     // heavy duty string cutting to get to the link to the image
@@ -108,7 +109,7 @@ function findDetails(n) {
   var restID = restaurants.results[n].place_id;
   params.target = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${restID}&key=`;
   $.ajax({
-    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/0/v1' + $.param(params),
+    url: proxySite+'/proxy/api/0/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
     rest_details[n] = response;
@@ -233,7 +234,7 @@ function dishClick(n) {
   var dishId = $("#dish_" + n).attr("value");
   $("#ReceipyTitle").text(data.results[n].title)
   $('#ReceipyModal').css("background-image", "url(" + data.results[n].image + ")");
-  var ingredientURL = "https://boiling-badlands-26235.herokuapp.com/proxy/api/key/1/" + dishId;
+  var ingredientURL = proxySite+"/proxy/api/key/1/" + dishId;
   console.log(ingredientURL);
   $.ajax({
     url: ingredientURL,
@@ -248,7 +249,7 @@ function dishClick(n) {
   }).catch(function (error) {
     alertCall("Errors!!! in Receipy ingredientsWidget " + error.status);
   });
-  ingredientURL = "https://boiling-badlands-26235.herokuapp.com/proxy/api/key/2/" + dishId;
+  ingredientURL = proxySite+"/proxy/api/key/2/" + dishId;
   console.log(ingredientURL);
   $.ajax({
     url: ingredientURL,
@@ -277,7 +278,7 @@ function DrawIngredients() {
 // calles for recepies and display them in the list
 function recepiesSearch(url) {
   $.ajax({
-    url: "https://boiling-badlands-26235.herokuapp.com/proxy/api/key/0/" + url,
+    url: proxySite+"/proxy/api/key/0/" + url,
     method: "GET",
   }).then(function (data1) {
     data = data1;
@@ -422,7 +423,7 @@ function videoSearch(link) {
   var params = {};
   params.target = link;
   $.ajax({
-    url: 'https://boiling-badlands-26235.herokuapp.com/proxy/api/0/v1' + $.param(params),
+    url: proxySite+'/proxy/api/0/v1' + $.param(params),
     method: 'GET'
   }).then(function (response) {
     video_detail = response;
