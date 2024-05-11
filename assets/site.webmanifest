@@ -4,8 +4,8 @@
       "description": "A helpful application to locate restaurants, find recipes, and recipe videos based on the users food preferences and location.",
     "theme_color": "#fff",
     "background_color": "#fff",
-    "display": "fullscreen",
-    "scope": "/",
+    "display": "standalone",
+    "scope": "/what-is-for-dinner",
     "start_url": "/what-is-for-dinner",
   
     "icons": [
